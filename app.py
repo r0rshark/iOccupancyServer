@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from model import Base, Location
+from model import  Location
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -12,8 +12,7 @@ db = SQLAlchemy(app)
 def setup():
     app.debug = True
     # Recreate database each time for demo
-    Base.metadata.drop_all(bind=db.engine)
-    Base.metadata.create_all(bind=db.engine)
+
 
 
 
@@ -40,17 +39,24 @@ def post():
     return "specify all field: id_device,id_beacon,status,power"
 
   print("fewfwe")
-  local = Location.query.get(1)
-  print("beacodasdsa")
+  local = Location.query.filter_by(id_beacon=beacon["id_beacon"],id_device=beacon["id_device"]).first()
+
   if local is None:
+    print(" NONO")
     db.session.add(Location(beacon["id_device"], beacon["id_beacon"],beacon["status"],beacon["power"]))
+    db.session.flush()
+    db.session.commit()
   else:
+    print(" SUSU")
     local.status=beacon["status"]
     local.power=beacon["power"]
+    db.session.merge(local)
+    db.session.commit()
+
 
 
   #db.session.merge(Location(id_device=beacon["id_device"],id_beacon=beacon["id_ibeacon"]))
-  db.session.commit()
+
   return "OK"
 
 
