@@ -9,9 +9,8 @@ Base = declarative_base()
 
 class Location(Base):
     __tablename__ = 'location'
-    id = Column(Integer, primary_key=True)
-    id_device = Column(String(255))
-    id_beacon = Column(String(255))
+    id_device = Column(String(255),primary_key=True)
+    id_beacon = Column(String(255),primary_key=True)
     status =  Column(Integer)
     power =  Column(Integer)
 
