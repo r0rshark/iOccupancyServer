@@ -39,19 +39,11 @@ def post():
     return "specify all field: id_device,id_beacon,status,power"
 
   print("fewfwe")
-  local = Location.query.filter_by(id_beacon=beacon["id_beacon"],id_device=beacon["id_device"]).first()
 
-  if local is None:
-    print(" NONO")
-    db.session.add(Location(beacon["id_device"], beacon["id_beacon"],beacon["status"],beacon["power"]))
-    db.session.flush()
-    db.session.commit()
-  else:
-    print(" SUSU")
-    local.status=beacon["status"]
-    local.power=beacon["power"]
-    db.session.merge(local)
-    db.session.commit()
+  db.session.merge(Location(beacon["id_device"], beacon["id_beacon"],beacon["status"],beacon["power"]))
+  db.session.flush()
+  db.session.commit()
+
 
 
 
