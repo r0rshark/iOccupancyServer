@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 class Ibeacon(Resource):
 
-  def post(self,id_device,id_beacon):
+  def post(self,device,beacon):
     beacon = request.json
     fields= ["status","power"]
 
@@ -18,7 +18,7 @@ class Ibeacon(Resource):
       print("POST with uncorrect fields")
       return "specify all field: status,power"
 
-    db.session.merge(Location(id_device, id_beacon,beacon["status"],beacon["power"]))
+    db.session.merge(Location(device, beacon,beacon["status"],beacon["power"]))
     db.session.flush()
     db.session.commit()
     return "OK"

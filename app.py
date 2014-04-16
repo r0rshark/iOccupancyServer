@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 
 api = Api(app)
-api.add_resource(Ibeacon, '/ibeacon/<string:id_device>/<string:id_beacon>')
+api.add_resource(Ibeacon, '/ibeacon/<string:device>/<string:beacon>')
 
 
 @app.before_first_request
