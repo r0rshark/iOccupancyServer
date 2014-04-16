@@ -19,11 +19,9 @@ def setup():
 @app.route('/')
 def index():
 
-    # Render template
-    locations = db.session.query(Location).all()
-    for loc in locations:
-      print loc.id_device+" "+loc.id_beacon
-    return render_template('request.html', data=locations)
+  # Render template
+  locations = db.session.query(Location).all()
+  return render_template('request.html', data=locations)
 
 @app.route('/ibeacon', methods = ['GET'])
 def getIBeacon():
@@ -35,10 +33,10 @@ def getIBeacon():
 def post():
   beacon = request.json
   fields= ["id_device","id_beacon","status","power"]
-  if not request.json or not  all(field in request.json for field in fields):
-    return "specify all field: id_device,id_beacon,status,power"
 
-  print("fewfwe")
+  if not request.json or not  all(field in request.json for field in fields):
+    print("POST with uncorrect fields")
+    return "specify all field: id_device,id_beacon,status,power"
 
   db.session.merge(Location(beacon["id_device"], beacon["id_beacon"],beacon["status"],beacon["power"]))
   db.session.flush()
@@ -46,8 +44,6 @@ def post():
 
 
 
-
-  #db.session.merge(Location(id_device=beacon["id_device"],id_beacon=beacon["id_ibeacon"]))
 
   return "OK"
 
@@ -59,5 +55,5 @@ def post():
 if __name__ == '__main__':
     app.run(
         host = "0.0.0.0",
-        port = 8000
+        port = 80
     )

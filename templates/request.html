@@ -1,29 +1,54 @@
+
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
-          rel="stylesheet">
-  </head>
-  <body>
-    <div class="container">
-      <div class="header">
-        <h3 class="text-muted">How To Manage JSON Requests</h3>
-      </div>
-      <hr/>
-      <div>
-      This is the JSON data, as an array of objects:<br />
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+      <meta http-equiv="refresh" content="3">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
-      {% for loc in data %}
-       {{loc.id}}: {{loc.id_device}}:{{loc.id_beacon}}:{{loc.status}}:{{loc.power}}
-      {% endfor %}
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 
-      </div>
-      <div class="header">
-        <h3 class="text-muted">Code to manage a JSON Request</h3>
-      </div>
-      <hr/>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h1>
+                     IBeacon
+                    </h1>
+                    <p>Per fare del testing usa questo comando <br>curl -X POST -H "Content-Type: application/json" -d '{"id_beacon":"rasp","id_device":"xydewz","status":"1","power":"12"}' http://192.168.0.100/ibeacon</p>
+                    <p>Here a list of all messages received by the Ibeacon Application</p>
+                </div>
+            </div>
+            <table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <td>ID_Beacon</td>
+      <td>ID_Device</td>
+      <td>Status</td>
+      <td>Power</td>
+    </tr>
+  </thead>
+  <tbody>
 
-      </div>
-    </div>
-  </body>
+            {% for loc in data %}
+            <tr>
+                <td>{{loc.id_beacon}}</td>
+                <td>{{loc.id_device}}</td>
+                <td>{{loc.status}}</td>
+                <td>{{loc.power}}</td>
+             </tr>
+            {% endfor %}
+
+
+
+        </body>
 </html>
