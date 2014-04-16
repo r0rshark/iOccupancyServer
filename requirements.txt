@@ -2,3 +2,4 @@ pip
 SQLAlchemy
 Flask-SQLAlchemy
 mysql-python
+Flask-RESTful

@@ -1,12 +1,21 @@
 from flask import Flask, render_template, request, jsonify
 from model import  Location
 from flask_sqlalchemy import SQLAlchemy
+from flask.ext.restful import  Api
+from resources import Ibeacon
 
 
 # Initialize the Flask application
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://Laravel:password@127.0.0.1/Ibeacon'
 db = SQLAlchemy(app)
+
+api = Api(app)
+api.add_resource(Ibeacon, '/ibeacon/<string:id_device>/<string:id_beacon>')
+
+
+
+
 
 @app.before_first_request
 def setup():
@@ -23,29 +32,6 @@ def index():
   locations = db.session.query(Location).all()
   return render_template('request.html', data=locations)
 
-@app.route('/ibeacon', methods = ['GET'])
-def getIBeacon():
-  locations = db.session.query(Location).all()
-  return jsonify(locations)
-
-
-@app.route('/ibeacon', methods = ['POST'])
-def post():
-  beacon = request.json
-  fields= ["id_device","id_beacon","status","power"]
-
-  if not request.json or not  all(field in request.json for field in fields):
-    print("POST with uncorrect fields")
-    return "specify all field: id_device,id_beacon,status,power"
-
-  db.session.merge(Location(beacon["id_device"], beacon["id_beacon"],beacon["status"],beacon["power"]))
-  db.session.flush()
-  db.session.commit()
-
-
-
-
-  return "OK"
 
 
 
@@ -55,5 +41,5 @@ def post():
 if __name__ == '__main__':
     app.run(
         host = "0.0.0.0",
-        port = 80
+        port = 8000
     )
