@@ -55,4 +55,31 @@ class Device(Resource):
 
       return "OK"
 
+class IbeaconServer(Resource):
+  def delete(self,device):
+    locations =Location.query.filter_by(id_device=device).all()
+    for loc in locations:
+      db.session.delete(loc)
+    db.session.commit()
+
+    return "OK"
+
+  def post(self,device,beacon):
+    req = request.json
+    fields= ["status","power"]
+
+    if not request.json or not  all(field in request.json for field in fields):
+      print("POST with uncorrect fields")
+      return "specify all field: status,power"
+
+    return "OK"
+    
+
+
+
+    
+
+
+
+
 

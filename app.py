@@ -14,6 +14,7 @@ app = Flask(__name__)
 api = Api(app)
 api.add_resource(Device, '/ibeacon/<string:device>')
 api.add_resource(Ibeacon, '/ibeacon/<string:device>/<string:beacon>')
+api.add_resource(IbeaconServer, '/ibeaconserver/<string:device>/<string:beacon>')
 
 
 @app.before_first_request
@@ -40,5 +41,5 @@ def index():
 if __name__ == '__main__':
     app.run(
         host = "0.0.0.0",
-        port = 8000
+        port = 80
     )
