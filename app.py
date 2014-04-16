@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from model import  Location
 from flask_sqlalchemy import SQLAlchemy
 from flask.ext.restful import  Api
-from resources import Ibeacon
+from resources import *
 from model import db
 
 
@@ -12,6 +12,7 @@ app = Flask(__name__)
 
 
 api = Api(app)
+api.add_resource(Device, '/ibeacon/<string:device>')
 api.add_resource(Ibeacon, '/ibeacon/<string:device>/<string:beacon>')
 
 

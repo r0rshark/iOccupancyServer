@@ -30,9 +30,13 @@ class Ibeacon(Resource):
         return "no result with this id"
       return {"status": local.status,"power":local.power}
 
-   # def put(self, todo_id):
-     #   todos[todo_id] = request.form['data']
-       # return {todo_id: todos[todo_id]}
+class Device(Resource):
+    def delete(self,device):
+      locations =Location.query.filter_by(id_device=device).all()
+      for loc in locations:
+        db.session.delete(loc)
+      db.session.commit()
 
+      return "OK"
 
 
