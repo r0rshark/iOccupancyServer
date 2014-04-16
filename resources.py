@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask.ext.restful import Resource
 from flask_sqlalchemy import SQLAlchemy
 from model import Location,db
@@ -30,7 +30,23 @@ class Ibeacon(Resource):
         return "no result with this id"
       return {"status": local.status,"power":local.power}
 
+  def delete(self, device,beacon):
+    location =Location.query.filter_by(id_device=device,id_beacon=beacon)
+    if location is None:
+      return "no location with this characteristic"
+    db.session.delete(location)
+    return "OK"
+
 class Device(Resource):
+    def get(self,device):
+      locations =Location.query.filter_by(id_device=device).all()
+      list_beacon = []
+      for local in locations:
+        list_beacon.append({"id_device":local.id_device, "id_beacon":local.id_beacon, "status": local.status,"power":local.power})
+      return jsonify(results=list_beacon)
+
+
+
     def delete(self,device):
       locations =Location.query.filter_by(id_device=device).all()
       for loc in locations:
