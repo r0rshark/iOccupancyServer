@@ -3,18 +3,16 @@ from model import  Location
 from flask_sqlalchemy import SQLAlchemy
 from flask.ext.restful import  Api
 from resources import Ibeacon
+from model import db
 
 
 # Initialize the Flask application
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://Laravel:password@127.0.0.1/Ibeacon'
-db = SQLAlchemy(app)
+
 
 api = Api(app)
 api.add_resource(Ibeacon, '/ibeacon/<string:id_device>/<string:id_beacon>')
-
-
-
 
 
 @app.before_first_request
