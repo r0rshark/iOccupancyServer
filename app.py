@@ -14,6 +14,7 @@ app = Flask(__name__)
 api = Api(app)
 api.add_resource(Device, '/ibeacon/<string:device>')
 api.add_resource(Ibeacon, '/ibeacon/<string:device>/<string:beacon>')
+api.add_resource(DeviceServer, '/ibeaconserver/<string:device>')
 api.add_resource(IbeaconServer, '/ibeaconserver/<string:device>/<string:beacon>')
 
 
