@@ -30,10 +30,10 @@ class Beacons(db.Model):
     def __repr__(self):
         return '<User %r>' % self.id_device
 
-class Location(db.Model):
+class Locations(db.Model):
     __tablename__="location"
     id_device = db.Column(db.String(255), primary_key=True)
-    id_beacon = db.Column(db.String(255), primary_key=True)
+    id_beacon = db.Column(db.String(255))
 
     def __init__(self, id_device, id_beacon):
         self.id_device = id_device
