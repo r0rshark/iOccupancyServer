@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from model import  Location, db
+from model import  Beacons, db
 from flask_sqlalchemy import SQLAlchemy
 from flask.ext.restful import  Api
 from resources import *
@@ -30,7 +30,7 @@ def setup():
 def index():
 
   # Render template
-  locations = db.session.query(Location).all()
+  locations = db.session.query(Beacons).all()
   return render_template('request.html', data=locations)
 
 

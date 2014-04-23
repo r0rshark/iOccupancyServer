@@ -11,8 +11,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://'+user+":"+password+"@"+host+"/
 db = SQLAlchemy(app)
 
 
-class Location(db.Model):
-    __tablename__ = 'location'
+class Beacons(db.Model):
+    __tablename__ = 'beacons'
     id_device = db.Column(db.String(255), primary_key=True)
     id_beacon = db.Column(db.String(255), primary_key=True)
     status =  db.Column(db.Integer)
@@ -29,3 +29,13 @@ class Location(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.id_device
+
+class Location(db.Model):
+    __tablename__="location"
+    id_device = db.Column(db.String(255), primary_key=True)
+    id_beacon = db.Column(db.String(255), primary_key=True)
+
+    def __init__(self, id_device, id_beacon):
+        self.id_device = id_device
+        self.id_beacon = id_beacon
+
