@@ -55,7 +55,7 @@ class deviceMinimalLogic(Resource):
       return "OK"
 
 
-class DeviceServer(Resource):
+class deviceFullLogic(Resource):
     def get(self,device):
       locations =Beacons.query.filter_by(id_device=device).all()
       list_beacon = []
@@ -73,7 +73,7 @@ class DeviceServer(Resource):
 
       return "OK"
 
-class IbeaconServer(Resource):
+class beaconFullLogic(Resource):
 
   def post(self,device,beacon):
     req = request.json
@@ -83,18 +83,27 @@ class IbeaconServer(Resource):
       print("POST with uncorrect fields")
       return "specify all field: status,power"
 
-    locations =Beacons.query.filter_by(id_device=device).all()
+    beacons =Beacons.query.filter_by(id_device=device).all()
     dt = datetime.now()
 
-    for loc in locations:
-      if dt.microsecond - loc.last_update.microsecond > 5:
-        db.session.delete(loc)
+
+    for ibeac in beacons:
+      if dt.microsecond - ibeac.last_update.microsecond > 5:
+        db.session.delete(ibeac)
     db.session.commit()
+
+    if all(req["power"] > beac.power for beac in beacons):
+      print "inside if"
+      db.session.merge(Locations(device,beacon))
+      db.session.flush()
+      db.session.commit()
 
     db.session.merge(Beacons(device, beacon,req["status"],req["power"],datetime.now()))
     db.session.flush()
     db.session.commit()
     return "OK"
+
+
 
   def get(self, device,beacon):
       print "dev:"+device+"beacon"+beacon
