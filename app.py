@@ -37,8 +37,8 @@ def index():
 def location():
 
   # Render template
-  locations = db.session.query(Locations).all()
-  return render_template('locations.html', data=locations)
+  local = db.session.query(Locations).all()
+  return render_template('locations.html', data=local)
 
 
 

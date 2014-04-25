@@ -14,9 +14,7 @@ class beaconMinimalLogic(Resource):
 
   def post(self,device,beacon):
     req = request.json
-
     db.session.merge(Locations(device, beacon))
-    db.session.flush()
     db.session.commit()
     return "OK"
 
@@ -39,8 +37,6 @@ class beaconMinimalLogic(Resource):
 class deviceMinimalLogic(Resource):
     def get(self,device):
       local =Locations.query.filter_by(id_device=device).first()
-
-
       return  {"id_device":local.id_device, "id_beacon":local.id_beacon}
 
 
@@ -51,7 +47,6 @@ class deviceMinimalLogic(Resource):
         return "device not found"
       db.session.delete(local)
       db.session.commit()
-
       return "OK"
 
 
@@ -88,7 +83,7 @@ class beaconFullLogic(Resource):
 
 
     for ibeac in beacons:
-      if dt.microsecond - ibeac.last_update.microsecond > 5:
+      if dt.microsecond - ibeac.last_update.microsecond > 5000000:
         db.session.delete(ibeac)
     db.session.commit()
 
