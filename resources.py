@@ -61,9 +61,13 @@ class deviceFullLogic(Resource):
 
 
     def delete(self,device):
-      locations =Beacons.query.filter_by(id_device=device).all()
-      for loc in locations:
+       #deleting all rows in table beacons
+      beacons =Beacons.query.filter_by(id_device=device).all()
+      for loc in beacons:
         db.session.delete(loc)
+     #deleting row in table location
+      location = Locations.query.filter_by(id_device=device).first()
+      db.session.delete(location)
       db.session.commit()
 
       return "OK"
@@ -73,31 +77,53 @@ class beaconFullLogic(Resource):
   def post(self,device,beacon):
     req = request.json
     fields= ["status","power"]
-
+    #checking correctness of post message
     if not request.json or not  all(field in request.json for field in fields):
       print("POST with uncorrect fields")
       return "specify all field: status,power"
 
-    beacons =Beacons.query.filter_by(id_device=device).all()
-    dt = datetime.now()
-
-
-    for ibeac in beacons:
-      if dt.microsecond - ibeac.last_update.microsecond > 5000000:
-        db.session.delete(ibeac)
-    db.session.commit()
-
-    if all(req["power"] > beac.power for beac in beacons):
-      print "inside if"
-      db.session.merge(Locations(device,beacon))
-      db.session.flush()
-      db.session.commit()
-
+    #adding beacon to the beacons table
     db.session.merge(Beacons(device, beacon,req["status"],req["power"],datetime.now()))
     db.session.flush()
     db.session.commit()
+
+    #deleting old beacons
+    beacons =Beacons.query.filter_by(id_device=device).all()
+    survived_beacons = self.refreshingBeacons(beacons)
+
+
+    stronger_beacon = self.chooseBestLocation(survived_beacons)
+
+    db.session.merge(Locations(stronger_beacon.id_device,stronger_beacon.id_beacon))
+    db.session.commit()
+
+
+
+
+
+
     return "OK"
 
+  def refreshingBeacons(self,beacons):
+    dt = datetime.now()
+    updated_beacons=[]
+    print "beacons len"+ str(len(beacons))
+    for ibeac in beacons:
+      print "micro seconds "+str((dt - ibeac.last_update).seconds)
+      if (dt - ibeac.last_update).seconds> 5:
+        db.session.delete(ibeac)
+      else:
+        updated_beacons.append(ibeac)
+    db.session.commit()
+    return updated_beacons
+
+
+  def chooseBestLocation(self,beacons):
+    stronger_beacon = beacons[0]
+    for beacon in beacons:
+      if (beacon.power >= stronger_beacon.power):
+        stronger_beacon = beacon
+    return stronger_beacon
 
 
   def get(self, device,beacon):

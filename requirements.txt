@@ -2,4 +2,5 @@ pip
 SQLAlchemy
 Flask-SQLAlchemy
 mysql-python
+tornado
 Flask-RESTful
