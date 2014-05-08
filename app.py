@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from model import  Beacons, db
+from model import  Beacons, db, Tests
 from flask_sqlalchemy import SQLAlchemy
 from flask.ext.restful import  Api
 from resources import *
@@ -16,6 +16,7 @@ api.add_resource(deviceMinimalLogic, '/ibeacon/<string:device>')
 api.add_resource(beaconMinimalLogic, '/ibeacon/<string:device>/<string:beacon>')
 api.add_resource(deviceFullLogic, '/ibeaconserver/<string:device>')
 api.add_resource(beaconFullLogic, '/ibeaconserver/<string:device>/<string:beacon>')
+api.add_resource(test, '/ibeacon/test')
 
 
 @app.before_first_request
@@ -39,6 +40,12 @@ def location():
   # Render template
   local = db.session.query(Locations).all()
   return render_template('locations.html', data=local)
+
+@app.route('/tests')
+def tests():
+  # Render template
+  local = db.session.query(Tests).all()
+  return render_template('tests.html', data=local)
 
 
 

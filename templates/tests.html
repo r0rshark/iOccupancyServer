@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+      <meta http-equiv="refresh" content="3">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h1>
+                     List of Accuracy Tests
+                    </h1>
+
+                    <p>Here a list of all answers collected during testing phase</p>
+                </div>
+            </div>
+            <table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <td>Answer</td>
+      <td>Strongest Beacon</td>
+      <td>Correct</td>
+      <td>Date</td>
+
+
+    </tr>
+  </thead>
+  <tbody>
+
+            {% for test in data %}
+            <tr>
+              <td>{{test.answer}}</td>
+                <td>{{test.strongest}}</td>
+                <td>{{test.correct}}</td>
+                <td>{{test.date}}</td>
+              
+
+             </tr>
+            {% endfor %}
+
+
+
+        </body>
+</html>

@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask.ext.restful import Resource
 from flask_sqlalchemy import SQLAlchemy
-from model import Beacons,db,Locations
+from model import Beacons,db,Locations,Tests
 from datetime import datetime
 
 
@@ -140,6 +140,23 @@ class beaconFullLogic(Resource):
     db.session.delete(location)
     return "OK"
 
+
+class test(Resource):
+  def post(self):
+    req = request.json
+    fields= ["answer","strongest","correct"]
+    #checking correctness of post message
+    if not request.json or not  all(field in request.json for field in fields):
+      print("POST with uncorrect fields")
+      return "specify all field: answer,strongest,correct"
+
+    #adding beacon to the beacons table
+   
+    db.session.merge(Tests(req["answer"],req["strongest"],req["correct"],datetime.now()))
+    db.session.flush()
+    db.session.commit()
+
+    return "OK"
 
 
 
