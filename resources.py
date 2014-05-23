@@ -8,6 +8,12 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+class training(Resource):
+
+  def post(self):
+
+    return "ok"
+
 class login(Resource):
   def post(self):
     req = request.json
@@ -33,6 +39,7 @@ class beaconMinimalLogic(Resource):
 
   def post(self,device,beacon):
     req = request.json
+    print req
     user = req["user"]
     db.session.merge(Locations(device, beacon, user))
     db.session.commit()
@@ -96,7 +103,7 @@ class deviceFullLogic(Resource):
 
     def post(self,device):
       req = request.json
-      print req
+      print req[0]['id_beacon']
       fields= ["id_beacon","status","power","user"]
     # checking correctness of post message
       if not request.json or not  all(field in request.json for field in fields):
@@ -104,19 +111,19 @@ class deviceFullLogic(Resource):
       return "specify all field: id_beacon,user,status,power"
 
       #adding beacon to the beacons table
-      db.session.merge(Beacons(device, req["id_beacon"],req["status"],req["power"],req["user"],datetime.now()))
-      db.session.flush()
-      db.session.commit()
+      #db.session.merge(Beacons(device, req["id_beacon"],req["status"],req["power"],req["user"],datetime.now()))
+      #db.session.flush()
+      #db.session.commit()
 
       #deleting old Beacons
-      beacons =Beacons.query.filter_by(id_device=device).all()
-      survived_beacons = self.refreshingBeacons(beacons)
+      #beacons =Beacons.query.filter_by(id_device=device).all()
+      #survived_beacons = self.refreshingBeacons(beacons)
 
 
-      stronger_beacon = self.chooseBestLocation(survived_beacons)
+      #stronger_beacon = self.chooseBestLocation(survived_beacons)
 
-      db.session.merge(Locations(stronger_beacon.id_device,stronger_beacon.id_beacon, stronger_beacon.user))
-      db.session.commit()
+      #db.session.merge(Locations(stronger_beacon.id_device,stronger_beacon.id_beacon, stronger_beacon.user))
+      #db.session.commit()
       return "OK"
 
     def refreshingBeacons(self,beacons):
