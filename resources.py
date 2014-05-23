@@ -9,6 +9,12 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+class training(Resource):
+
+  def post(self):
+
+    return "ok"
+
 class login(Resource):
   def post(self):
     req = request.json
@@ -34,6 +40,7 @@ class beaconMinimalLogic(Resource):
 
   def post(self,device,beacon):
     req = request.json
+    print req
     user = req["user"]
     db.session.merge(Locations(device, beacon, user))
     db.session.commit()
@@ -93,73 +100,58 @@ class deviceFullLogic(Resource):
 
       return "OK"
 
-class beaconFullLogic(Resource):
-
-  def post(self,device,beacon):
-    req = request.json
-    fields= ["status","power","user"]
-    #checking correctness of post message
-    if not request.json or not  all(field in request.json for field in fields):
-      print("POST with uncorrect fields")
-      return "specify all field: status,power"
-
-    #adding beacon to the beacons table
-    db.session.merge(Beacons(device, beacon,req["status"],req["power"],req["user"],datetime.now()))
-    db.session.flush()
-    db.session.commit()
-
-    #deleting old beacons
-    beacons =Beacons.query.filter_by(id_device=device).all()
-    survived_beacons = self.refreshingBeacons(beacons)
-
-    find_best_room([{'e2c56db5-dffb-48d2-b060-d0f5a71096e0039' : 9.23,'e2c56db5-dffb-48d2-b060-d0f5a71096e000':1.93}])
-    #stronger_beacon = self.chooseBestLocation(survived_beacons)
-
-    db.session.merge(Locations(stronger_beacon.id_device,stronger_beacon.id_beacon, stronger_beacon.user))
-    db.session.commit()
 
 
+    def post(self,device):
+      req = request.json
+      print req[0]['id_beacon']
+      fields= ["id_beacon","status","power","user"]
+    # checking correctness of post message
+      if not request.json or not  all(field in request.json for field in fields):
+        print("POST with uncorrect fields")
+      return "specify all field: id_beacon,user,status,power"
+
+      #adding beacon to the beacons table
+      #db.session.merge(Beacons(device, req["id_beacon"],req["status"],req["power"],req["user"],datetime.now()))
+      #db.session.flush()
+      #db.session.commit()
+
+      #deleting old Beacons
+      #beacons =Beacons.query.filter_by(id_device=device).all()
+      #survived_beacons = self.refreshingBeacons(beacons)
+
+
+      #stronger_beacon = self.chooseBestLocation(survived_beacons)
+
+      #db.session.merge(Locations(stronger_beacon.id_device,stronger_beacon.id_beacon, stronger_beacon.user))
+      #db.session.commit()
+      return "OK"
+
+    def refreshingBeacons(self,beacons):
+      dt = datetime.now()
+      updated_beacons=[]
+      print "beacons len"+ str(len(beacons))
+      for ibeac in beacons:
+        print "micro seconds "+str((dt - ibeac.last_update).seconds)
+        if (dt - ibeac.last_update).seconds> 5:
+          db.session.delete(ibeac)
+        else:
+          updated_beacons.append(ibeac)
+      db.session.commit()
+      return updated_beacons
+
+
+    def chooseBestLocation(self,beacons):
+      stronger_beacon = beacons[0]
+      for beacon in beacons:
+        if (beacon.power >= stronger_beacon.power):
+          stronger_beacon = beacon
+      return stronger_beacon
 
 
 
 
-    return "OK"
 
-  def refreshingBeacons(self,beacons):
-    dt = datetime.now()
-    updated_beacons=[]
-    print "beacons len"+ str(len(beacons))
-    for ibeac in beacons:
-      print "micro seconds "+str((dt - ibeac.last_update).seconds)
-      if (dt - ibeac.last_update).seconds> 5:
-        db.session.delete(ibeac)
-      else:
-        updated_beacons.append(ibeac)
-    db.session.commit()
-    return updated_beacons
-
-
-  def chooseBestLocation(self,beacons):
-    stronger_beacon = beacons[0]
-    for beacon in beacons:
-      if (beacon.power >= stronger_beacon.power):
-        stronger_beacon = beacon
-    return stronger_beacon
-
-
-  def get(self, device,beacon):
-      print "dev:"+device+"beacon"+beacon
-      local = Beacons.query.filter_by(id_device=device,id_beacon=beacon).first()
-      if local is None:
-        return "no result with this id"
-      return {"status": local.status,"power":local.power}
-
-  def delete(self, device,beacon):
-    location =Beacons.query.filter_by(id_device=device,id_beacon=beacon)
-    if location is None:
-      return "no location with this characteristic"
-    db.session.delete(location)
-    return "OK"
 
 
 class test(Resource):
