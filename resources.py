@@ -1,12 +1,31 @@
 from flask import Flask, request, jsonify
 from flask.ext.restful import Resource
 from flask_sqlalchemy import SQLAlchemy
-from model import Beacons,db,Locations,Tests
+from model import Beacons,db,Locations,Tests,Users
 from datetime import datetime
 
 
 
 app = Flask(__name__)
+
+class login(Resource):
+  def post(self):
+    req = request.json
+    fields= ["email","password"]
+    #checking correctness of post message
+    if not request.json or not  all(field in request.json for field in fields):
+      print("POST with uncorrect fields")
+      return "specify all field: status,power"
+
+    emailUser = req["email"]
+    passwordUser = req["password"]
+    user = Users.query.filter_by(email=emailUser,password = passwordUser).first()
+    print user
+    if user is None:
+      return "not_found"
+    return user.email
+
+
 
 
 
@@ -14,7 +33,8 @@ class beaconMinimalLogic(Resource):
 
   def post(self,device,beacon):
     req = request.json
-    db.session.merge(Locations(device, beacon))
+    user = req["user"]
+    db.session.merge(Locations(device, beacon, user))
     db.session.commit()
     return "OK"
 
@@ -37,7 +57,7 @@ class beaconMinimalLogic(Resource):
 class deviceMinimalLogic(Resource):
     def get(self,device):
       local =Locations.query.filter_by(id_device=device).first()
-      return  {"id_device":local.id_device, "id_beacon":local.id_beacon}
+      return  {"id_device":local.id_device, "id_beacon":local.id_beacon, "user":local.user}
 
 
 
@@ -55,7 +75,7 @@ class deviceFullLogic(Resource):
       locations =Beacons.query.filter_by(id_device=device).all()
       list_beacon = []
       for local in locations:
-        list_beacon.append({"id_device":local.id_device, "id_beacon":local.id_beacon, "status": local.status,"power":local.power,"last_update":local.last_update})
+        list_beacon.append({"id_device":local.id_device, "id_beacon":local.id_beacon, "status": local.status,"power":local.power,"user":local.user,"last_update":local.last_update})
       return jsonify(results=list_beacon)
 
 
@@ -76,14 +96,14 @@ class beaconFullLogic(Resource):
 
   def post(self,device,beacon):
     req = request.json
-    fields= ["status","power"]
+    fields= ["status","power","user"]
     #checking correctness of post message
     if not request.json or not  all(field in request.json for field in fields):
       print("POST with uncorrect fields")
       return "specify all field: status,power"
 
     #adding beacon to the beacons table
-    db.session.merge(Beacons(device, beacon,req["status"],req["power"],datetime.now()))
+    db.session.merge(Beacons(device, beacon,req["status"],req["power"],req["user"],datetime.now()))
     db.session.flush()
     db.session.commit()
 
@@ -94,7 +114,7 @@ class beaconFullLogic(Resource):
 
     stronger_beacon = self.chooseBestLocation(survived_beacons)
 
-    db.session.merge(Locations(stronger_beacon.id_device,stronger_beacon.id_beacon))
+    db.session.merge(Locations(stronger_beacon.id_device,stronger_beacon.id_beacon, stronger_beacon.user))
     db.session.commit()
 
 
