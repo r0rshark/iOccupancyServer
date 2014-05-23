@@ -47,6 +47,8 @@ class Locations(db.Model):
         self.id_beacon = id_beacon
         self.user = user
 
+
+
 class Tests(db.Model):
     __tablename__ = "tests"
     answer = db.Column(db.String(255), primary_key=True)
@@ -59,4 +61,25 @@ class Tests(db.Model):
         self.strongest = strongest
         self.correct = correct
         self.date = date
+
+class Training(db.Model):
+    __tablename__ = 'training'
+    id = db.Column(db.Integer, primary_key=True)
+    id_beacon = db.Column(db.String(255), primary_key=True)
+    distance =  db.Column(db.Float)
+    rilevation =  db.Column(db.DateTime)
+
+
+
+    def __init__(self,  id_beacon,distance,rilevation):
+
+        self.id_beacon = id_beacon
+        self.distance = distance
+        self.rilevation = rilevation
+
+
+
+    def __repr__(self):
+        return '<Training %r>' % self.id
+
 

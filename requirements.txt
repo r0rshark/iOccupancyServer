@@ -4,3 +4,6 @@ Flask-SQLAlchemy
 mysql-python
 tornado
 Flask-RESTful
+numpy
+scikit-learn
+scipy

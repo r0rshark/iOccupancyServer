@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask.ext.restful import Resource
 from flask_sqlalchemy import SQLAlchemy
 from model import Beacons,db,Locations,Tests,Users
+from learning_test import find_best_room
 from datetime import datetime
 
 
@@ -111,8 +112,8 @@ class beaconFullLogic(Resource):
     beacons =Beacons.query.filter_by(id_device=device).all()
     survived_beacons = self.refreshingBeacons(beacons)
 
-
-    stronger_beacon = self.chooseBestLocation(survived_beacons)
+    find_best_room([{'e2c56db5-dffb-48d2-b060-d0f5a71096e0039' : 9.23,'e2c56db5-dffb-48d2-b060-d0f5a71096e000':1.93}])
+    #stronger_beacon = self.chooseBestLocation(survived_beacons)
 
     db.session.merge(Locations(stronger_beacon.id_device,stronger_beacon.id_beacon, stronger_beacon.user))
     db.session.commit()
@@ -171,7 +172,7 @@ class test(Resource):
       return "specify all field: answer,strongest,correct"
 
     #adding beacon to the beacons table
-   
+
     db.session.merge(Tests(req["answer"],req["strongest"],req["correct"],datetime.now()))
     db.session.flush()
     db.session.commit()
