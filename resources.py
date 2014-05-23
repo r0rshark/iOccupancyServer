@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask.ext.restful import Resource
 from flask_sqlalchemy import SQLAlchemy
-from model import Beacons,db,Locations,Tests,Users
+from model import Beacons,db,Locations,Tests,Users,TrainingData,TrainingResult
 from learning_test import find_best_room
 from datetime import datetime
 
@@ -12,7 +12,17 @@ app = Flask(__name__)
 class training(Resource):
 
   def post(self):
+    #da implementare
+    res = TrainingResult(outcome="Taverna")
+    data1 =  TrainingData(id_beacon="dsadsa",distance=32)
+    data2 =  TrainingData(id_beacon="dsadsa",distance=32)
+    res.data.append(data1)
+    res.data.append(data2)
+    db.session.add(res)
+    db.session.add(data1)
+    db.session.add(data2)
 
+    db.session.commit()
     return "ok"
 
 class login(Resource):

@@ -62,20 +62,30 @@ class Tests(db.Model):
         self.correct = correct
         self.date = date
 
-class Training(db.Model):
-    __tablename__ = 'training'
+class TrainingData(db.Model):
+    __tablename__ = 'trainingdata'
     id = db.Column(db.Integer, primary_key=True)
-    id_beacon = db.Column(db.String(255), primary_key=True)
+    id_beacon = db.Column(db.String(255))
     distance =  db.Column(db.Float)
-    rilevation =  db.Column(db.DateTime)
+    rilevation =  db.Column(db.Integer,db.ForeignKey('trainingresult.id'))
 
 
 
-    def __init__(self,  id_beacon,distance,rilevation):
 
-        self.id_beacon = id_beacon
-        self.distance = distance
-        self.rilevation = rilevation
+
+    def __repr__(self):
+        return '<Training %r>' % self.id
+
+
+class TrainingResult(db.Model):
+    __tablename__ = 'trainingresult'
+    id= db.Column(db.Integer, primary_key=True)
+    outcome = db.Column(db.String(255))
+    data = db.relationship("TrainingData",backref="result")
+
+
+
+
 
 
 
