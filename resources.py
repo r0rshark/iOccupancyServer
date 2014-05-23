@@ -92,18 +92,19 @@ class deviceFullLogic(Resource):
 
       return "OK"
 
-class beaconFullLogic(Resource):
 
-  def post(self,device,beacon):
+
+    def post(self,device):
     req = request.json
-    fields= ["status","power","user"]
+    print req
+    fields= ["id_beacon","status","power","user"]
     #checking correctness of post message
     if not request.json or not  all(field in request.json for field in fields):
       print("POST with uncorrect fields")
       return "specify all field: status,power"
 
     #adding beacon to the beacons table
-    db.session.merge(Beacons(device, beacon,req["status"],req["power"],req["user"],datetime.now()))
+    db.session.merge(Beacons(device, req["id_beacon"],req["status"],req["power"],req["user"],datetime.now()))
     db.session.flush()
     db.session.commit()
 
@@ -116,13 +117,7 @@ class beaconFullLogic(Resource):
 
     db.session.merge(Locations(stronger_beacon.id_device,stronger_beacon.id_beacon, stronger_beacon.user))
     db.session.commit()
-
-
-
-
-
-
-    return "OK"
+  return "OK"
 
   def refreshingBeacons(self,beacons):
     dt = datetime.now()
@@ -146,19 +141,9 @@ class beaconFullLogic(Resource):
     return stronger_beacon
 
 
-  def get(self, device,beacon):
-      print "dev:"+device+"beacon"+beacon
-      local = Beacons.query.filter_by(id_device=device,id_beacon=beacon).first()
-      if local is None:
-        return "no result with this id"
-      return {"status": local.status,"power":local.power}
 
-  def delete(self, device,beacon):
-    location =Beacons.query.filter_by(id_device=device,id_beacon=beacon)
-    if location is None:
-      return "no location with this characteristic"
-    db.session.delete(location)
-    return "OK"
+
+
 
 
 class test(Resource):

@@ -15,7 +15,6 @@ api = Api(app)
 api.add_resource(deviceMinimalLogic, '/ibeacon/<string:device>')
 api.add_resource(beaconMinimalLogic, '/ibeacon/<string:device>/<string:beacon>')
 api.add_resource(deviceFullLogic, '/ibeaconserver/<string:device>')
-api.add_resource(beaconFullLogic, '/ibeaconserver/<string:device>/<string:beacon>')
 api.add_resource(test, '/ibeacon/test')
 api.add_resource(login,'/ibeacon/login')
 
