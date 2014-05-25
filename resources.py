@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask.ext.restful import Resource
 from flask_sqlalchemy import SQLAlchemy
 from model import Beacons,db,Locations,Tests,Users,TrainingData,TrainingResult
-from learning_test import find_best_room
+from learning_test import *
 from datetime import datetime
 
 
@@ -120,6 +120,7 @@ class deviceFullLogic(Resource):
       if not request.json or not  all(field in request.json for field in fields):
         print("POST with uncorrect fields")
       return "specify all field: id_beacon,user,status,power"
+
 
       #adding beacon to the beacons table
       #db.session.merge(Beacons(device, req["id_beacon"],req["status"],req["power"],req["user"],datetime.now()))
