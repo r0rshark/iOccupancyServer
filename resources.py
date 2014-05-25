@@ -13,24 +13,22 @@ app = Flask(__name__)
 class training(Resource):
 
   def post(self):
+    print "------Inserting info in Training Database----"
     req = request.json
-    pr.pprint(req)
-    #da implementar
-    '''
-    res = TrainingResult(outcome="Taverna")
-    data1 =  TrainingData(id_beacon="dsadsa",distance=32)
-    data2 =  TrainingData(id_beacon="dsadsa",distance=32)
-    res.data.append(data1)
-    res.data.append(data2)
+    res = TrainingResult(outcome=req[0]['answer'])
+
+    for information in req:
+      info = TrainingData(id_beacon=information['id_beacon'],distance=information['distance'])
+      res.data.append(info)
+
+
     db.session.add(res)
-    db.session.add(data1)
-    db.session.add(data2)
+    for information in res.data:
+      db.session.add(information)
 
     db.session.commit()
-    '''
 
-    mytest=[{'e2c56db5-dffb-48d2-b060-d0f5a71096e0035' : 9.23,'e2c56db5-dffb-48d2-b060-d0f5a71096e000':1.93}]
-    learning_machine.find_best_room(mytest)
+
     return "ok"
 
 class login(Resource):
@@ -59,8 +57,7 @@ class beaconMinimalLogic(Resource):
   def post(self,device,beacon):
     req = request.json
     print req
-    user = req["user"]
-    db.session.merge(Locations(device, beacon, user))
+    db.session.merge(Locations(device, beacon))
     db.session.commit()
     return "OK"
 
@@ -83,7 +80,7 @@ class beaconMinimalLogic(Resource):
 class deviceMinimalLogic(Resource):
     def get(self,device):
       local =Locations.query.filter_by(id_device=device).first()
-      return  {"id_device":local.id_device, "id_beacon":local.id_beacon, "user":local.user}
+      return  {"id_device":local.id_device, "id_beacon":local.id_beacon}
 
 
 
@@ -122,13 +119,23 @@ class deviceFullLogic(Resource):
 
     def post(self,device):
       req = request.json
+      '''
       print req[0]['id_beacon']
       fields= ["id_beacon","status","power","user"]
-    # checking correctness of post message
+      # checking correctness of post message
       if not request.json or not  all(field in request.json for field in fields):
         print("POST with uncorrect fields")
       return "specify all field: id_beacon,user,status,power"
+      '''
+      test_data = []
+      info ={}
+      for information in req:
+        info[information['id_beacon']]=information['distance']
+      test_data.append(info)
+      pr.pprint(test_data)
 
+      mytest=[{'e2c56db5-dffb-48d2-b060-d0f5a71096e0035' : 9.23,'e2c56db5-dffb-48d2-b060-d0f5a71096e000':1.93}]
+      prediction = learning_machine.find_best_room(test_data)
 
       #adding beacon to the beacons table
       #db.session.merge(Beacons(device, req["id_beacon"],req["status"],req["power"],req["user"],datetime.now()))
@@ -142,8 +149,8 @@ class deviceFullLogic(Resource):
 
       #stronger_beacon = self.chooseBestLocation(survived_beacons)
 
-      #db.session.merge(Locations(stronger_beacon.id_device,stronger_beacon.id_beacon, stronger_beacon.user))
-      #db.session.commit()
+      db.session.merge(Locations(device,prediction))
+      db.session.commit()
       return "OK"
 
     def refreshingBeacons(self,beacons):

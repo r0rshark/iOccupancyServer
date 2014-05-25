@@ -50,10 +50,13 @@ def tests():
   return render_template('tests.html', data=local)
 
 
+def setup():
+  learning_machine.load_data()
 
 # Run
-learning_machine.load_data()
+
 if __name__ == '__main__':
+    setup()
     app.run(
         host = "0.0.0.0",
         port = 80

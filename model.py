@@ -21,15 +21,15 @@ class Beacons(db.Model):
     id_beacon = db.Column(db.String(255), primary_key=True)
     status =  db.Column(db.Integer)
     power =  db.Column(db.Integer)
-    user = db.Column(db.String(255))
+
     last_update = db.Column(db.DateTime)
 
-    def __init__(self, id_device, id_beacon,status,power,user,last_update):
+    def __init__(self, id_device, id_beacon,status,power,last_update):
         self.id_device = id_device
         self.id_beacon = id_beacon
         self.status = status
         self.power = power
-        self.user = user
+
         self.last_update = last_update
 
 
@@ -40,12 +40,12 @@ class Locations(db.Model):
     __tablename__="location"
     id_device = db.Column(db.String(255), primary_key=True)
     id_beacon = db.Column(db.String(255))
-    user = db.Column(db.String(255))
 
-    def __init__(self, id_device, id_beacon, user):
+
+    def __init__(self, id_device, id_beacon):
         self.id_device = id_device
         self.id_beacon = id_beacon
-        self.user = user
+
 
 
 
