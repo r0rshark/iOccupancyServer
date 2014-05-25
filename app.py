@@ -3,7 +3,7 @@ from model import  Beacons, db, Tests,TrainingResult
 from flask_sqlalchemy import SQLAlchemy
 from flask.ext.restful import  Api
 from resources import *
-import learning_test
+
 
 
 
@@ -52,7 +52,7 @@ def tests():
 
 
 # Run
-learning_test.load_data()
+learning_machine.load_data()
 if __name__ == '__main__':
     app.run(
         host = "0.0.0.0",

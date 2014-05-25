@@ -2,8 +2,9 @@ from flask import Flask, request, jsonify
 from flask.ext.restful import Resource
 from flask_sqlalchemy import SQLAlchemy
 from model import Beacons,db,Locations,Tests,Users,TrainingData,TrainingResult
-from learning_test import *
+import learning_machine
 from datetime import datetime
+import pprint as pr
 
 
 
@@ -12,7 +13,10 @@ app = Flask(__name__)
 class training(Resource):
 
   def post(self):
-    #da implementare
+    req = request.json
+    pr.pprint(req)
+    #da implementar
+    '''
     res = TrainingResult(outcome="Taverna")
     data1 =  TrainingData(id_beacon="dsadsa",distance=32)
     data2 =  TrainingData(id_beacon="dsadsa",distance=32)
@@ -23,6 +27,10 @@ class training(Resource):
     db.session.add(data2)
 
     db.session.commit()
+    '''
+
+    mytest=[{'e2c56db5-dffb-48d2-b060-d0f5a71096e0035' : 9.23,'e2c56db5-dffb-48d2-b060-d0f5a71096e000':1.93}]
+    learning_machine.find_best_room(mytest)
     return "ok"
 
 class login(Resource):
