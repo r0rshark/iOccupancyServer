@@ -20,7 +20,7 @@ def normalize_test(test,features):
 
     if test.get(beacon) is  None:
       print beacon
-      test[beacon]=0
+      test[beacon]=9999
   return test
 
 
