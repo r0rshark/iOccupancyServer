@@ -1,4 +1,4 @@
-from sklearn import datasets
+from sklearn import datasets, preprocessing
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.datasets import load_iris
 from model import db,TrainingResult
@@ -30,6 +30,7 @@ def normalize_test(test,features):
 def find_best_room(test_data):
   print '-----Data to be feeded input------\n'
   vec = DictVectorizer()
+
   data = vec.fit_transform(measurements).toarray()
 
   pprint.pprint(data)
@@ -37,7 +38,11 @@ def find_best_room(test_data):
 
   print '-----Data to be feeded output------\n'
 
-  target = numpy.array(target_ar)
+
+  le = preprocessing.LabelEncoder()
+  le.fit(target_ar)
+  pprint.pprint(le.classes_)
+  target = le.transform(target_ar)
   pprint.pprint(target)
 
   print "-----Test Data to be predicted normalized------\n"
@@ -48,18 +53,24 @@ def find_best_room(test_data):
   test = test_vec.fit_transform(test_data).toarray()
   pprint.pprint(test_data)
   pprint.pprint(test)
+  print "------------"
+  pprint.pprint(data)
+  pprint.pprint(target)
+
+
+  print '-------Result----------'
 
   clf = svm.SVC(gamma=0.001, C=100.)
   clf.fit(data, target)
-  print '-------Result----------'
-  clf = svm.SVC(gamma=0.001, C=100.)
-  clf.fit(data, target)
   prediction = clf.predict(test)
-  print str(prediction)
+  print prediction
+  print str(le.inverse_transform(prediction))
+  print "----"
   return prediction
 
 
 
+  l
 
 
 def load_data():
