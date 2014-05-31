@@ -1,4 +1,4 @@
-from sklearn import datasets
+from sklearn import datasets , preprocessing
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.datasets import load_iris
 from model import db,TrainingResult
@@ -20,7 +20,7 @@ def normalize_test(test,features):
 
     if test.get(beacon) is  None:
       print beacon
-      test[beacon]=9999
+      test[beacon]=99
   return test
 
 
@@ -28,9 +28,15 @@ def normalize_test(test,features):
 
 
 def find_best_room(test_data):
+
   print '-----Data to be feeded input------\n'
-  vec = DictVectorizer()
+  vec = DictVectorizer(sparse=True)
   data = vec.fit_transform(measurements).toarray()
+
+  scaler = preprocessing.StandardScaler().fit(data)
+
+  data = scaler.transform(data)
+  print "scaled data---------"
 
   pprint.pprint(data)
   print 'data feature '+str(vec.get_feature_names())
@@ -46,8 +52,10 @@ def find_best_room(test_data):
 
   print "-----Test data after normalized------\n"
   test = test_vec.fit_transform(test_data).toarray()
+  test = scaler.transform(test)
   pprint.pprint(test_data)
   pprint.pprint(test)
+
 
   clf = svm.SVC(gamma=0.001, C=100.)
   clf.fit(data, target)
