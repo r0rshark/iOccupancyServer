@@ -14,7 +14,7 @@ def plot_data(measurements,target_ar,scaler):
 
 
   scaled_data = scaler.transform(data)
-  X = data  # we only take the first two features. We could
+  X = scaled_data  # we only take the first two features. We could
                         # avoid this ugly slicing by using a two-dim dataset
   pp(X)
   le = preprocessing.LabelEncoder()

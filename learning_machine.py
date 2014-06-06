@@ -104,7 +104,7 @@ def load_data():
 
   if (len(measurements)>0 and len(target_ar)>1):
     calculate_model()
-    plot.plot_data(measurements,target_ar,scaler)
+    #plot.plot_data(measurements,target_ar,scaler)
 
 
   '''

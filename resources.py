@@ -55,8 +55,8 @@ class login(Resource):
 class beaconMinimalLogic(Resource):
 
   def post(self,device,beacon):
-    req = request.json
-    print req
+
+    print "recieved location" + beacon +"from "+device
     db.session.merge(Locations(device, beacon))
     db.session.commit()
     return "OK"
