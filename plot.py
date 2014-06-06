@@ -2,18 +2,27 @@
 from pprint import pprint as pp
 import numpy as np
 import pylab as pl
+from sklearn import preprocessing
 from sklearn.feature_extraction import DictVectorizer
 from sklearn import svm, datasets
 
-def plot_data(measurements,target_ar):
+def plot_data(measurements,target_ar,scaler):
   # import some data to play with
   print "loaded measuments"
   inputDict = DictVectorizer(sparse=True)
-  iris = datasets.load_iris()
-  X = inputDict.fit_transform(measurements).toarray()  # we only take the first two features. We could
+  data = inputDict.fit_transform(measurements).toarray()
+
+
+  scaled_data = scaler.transform(data)
+  X = data  # we only take the first two features. We could
                         # avoid this ugly slicing by using a two-dim dataset
   pp(X)
-  Y = np.array(target_ar)
+  le = preprocessing.LabelEncoder()
+  le.fit(target_ar)
+  pp(le.classes_)
+  target = le.transform(target_ar)
+
+  Y = np.array(target)
   pp(Y)
 
   h = .02  # step size in the mesh

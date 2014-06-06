@@ -26,13 +26,14 @@ def normalize_test(test,features):
 
     if test.get(beacon) is  None:
       print beacon
-      test[beacon]=99
+      test[beacon]=0
   return test
 
 def calculate_model():
   print '-----Data to be feeded input------\n'
 
   data = inputDict.fit_transform(measurements).toarray()
+  pprint.pprint(data)
   scaler.fit(data)
   data = scaler.transform(data)
   print "scaled data---------"
@@ -99,12 +100,11 @@ def load_data():
     for data in res.data:
       print "adding "+str(data.id_beacon)+" at distance "+str(data.distance)
       rilevation[data.id_beacon] = data.distance
-
     measurements.append(rilevation)
 
-
-  calculate_model()
-  plot.plot_data(measurements,target_ar)
+  if (len(measurements)>0 and len(target_ar)>1):
+    calculate_model()
+    plot.plot_data(measurements,target_ar,scaler)
 
 
   '''
