@@ -5,6 +5,8 @@ from model import db,TrainingResult
 from sklearn import svm
 import numpy
 import pprint
+import pickle
+import plot
 
 measurements =[]
 target_ar = []
@@ -71,6 +73,7 @@ def find_best_room(test_data):
 
 
 def load_data():
+
   results = db.session.query(TrainingResult).all()
   for res in results:
     target_ar.append(res.outcome)
@@ -81,6 +84,9 @@ def load_data():
       rilevation[data.id_beacon] = data.distance
 
     measurements.append(rilevation)
+
+ # plot.plot_data(measurements)
+
 
   '''
   measurements =[{'e2c56db5-dffb-48d2-b060-d0f5a71096e0035' : 0.23,'e2c56db5-dffb-48d2-b060-d0f5a71096e000':4.23,'e2c56db5-dffb-48d2-b060-d0f5a71096e029':4.23},
