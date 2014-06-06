@@ -10,6 +10,10 @@ import plot
 
 measurements =[]
 target_ar = []
+inputDict = DictVectorizer(sparse=True)
+scaler = preprocessing.StandardScaler()
+myclf = None
+
 def normalize_test(test,features):
   print '-----deleting key in test which are not present in training data------'
   for beacon in test.keys():
@@ -25,51 +29,64 @@ def normalize_test(test,features):
       test[beacon]=99
   return test
 
-
-
-
-
-def find_best_room(test_data):
-
+def calculate_model():
   print '-----Data to be feeded input------\n'
-  vec = DictVectorizer(sparse=True)
-  data = vec.fit_transform(measurements).toarray()
 
-  scaler = preprocessing.StandardScaler().fit(data)
-
+  data = inputDict.fit_transform(measurements).toarray()
+  scaler.fit(data)
   data = scaler.transform(data)
   print "scaled data---------"
 
   pprint.pprint(data)
-  print 'data feature '+str(vec.get_feature_names())
+  print 'data feature '+str(inputDict.get_feature_names())
 
   print '-----Data to be feeded output------\n'
 
   target = numpy.array(target_ar)
   pprint.pprint(target)
 
-  print "-----Test Data to be predicted normalized------\n"
-  test_vec = DictVectorizer()
-  test_data[0] = normalize_test(test_data[0],vec.get_feature_names())
-
-  print "-----Test data after normalized------\n"
-  test = test_vec.fit_transform(test_data).toarray()
-  test = scaler.transform(test)
-  pprint.pprint(test_data)
-  pprint.pprint(test)
 
 
-  print '-------Result----------'
+
 
   clf = svm.SVC(gamma=0.001, C=100.)
   clf.fit(data, target)
+  print "saving model\n"
+
+  global myclf
+  myclf = pickle.dumps(clf)
+
+
+
+
+
+
+def find_best_room(test_data):
+
+  print "-----Test Data in input------\n"
+  pprint.pprint(test_data)
+  print "-----Test Data to be predicted normalized------\n"
+  test_vec = DictVectorizer()
+  test_data[0] = normalize_test(test_data[0],inputDict.get_feature_names())
+  pprint.pprint(test_data[0])
+
+
+
+  print "-----Test data  scaled and standardized------\n"
+  test = test_vec.fit_transform(test_data).toarray()
+  test = scaler.transform(test)
+
+  pprint.pprint(test)
+
+  clf = pickle.loads(myclf)
   prediction = clf.predict(test)
-  print str(prediction)
+  print '##########################Result######################\n'
+  print str(prediction)+"\n\n"
   return prediction
 
 
 
-  l
+
 
 
 def load_data():
@@ -85,7 +102,9 @@ def load_data():
 
     measurements.append(rilevation)
 
- # plot.plot_data(measurements)
+
+  calculate_model()
+  plot.plot_data(measurements,target_ar)
 
 
   '''

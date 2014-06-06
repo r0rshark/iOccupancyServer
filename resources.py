@@ -132,7 +132,6 @@ class deviceFullLogic(Resource):
       for information in req:
         info[information['id_beacon']]=information['distance']
       test_data.append(info)
-      pr.pprint(test_data)
 
       mytest=[{'e2c56db5-dffb-48d2-b060-d0f5a71096e0035' : 9.23,'e2c56db5-dffb-48d2-b060-d0f5a71096e000':1.93}]
       prediction = learning_machine.find_best_room(test_data)
