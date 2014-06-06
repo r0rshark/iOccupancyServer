@@ -1,4 +1,4 @@
-from sklearn import datasets , preprocessing
+from sklearn import datasets, preprocessing
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.datasets import load_iris
 from model import db,TrainingResult
@@ -57,9 +57,8 @@ def find_best_room(test_data):
   pprint.pprint(test)
 
 
-  clf = svm.SVC(gamma=0.001, C=100.)
-  clf.fit(data, target)
   print '-------Result----------'
+
   clf = svm.SVC(gamma=0.001, C=100.)
   clf.fit(data, target)
   prediction = clf.predict(test)
@@ -68,6 +67,7 @@ def find_best_room(test_data):
 
 
 
+  l
 
 
 def load_data():
