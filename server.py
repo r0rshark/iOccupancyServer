@@ -1,5 +1,6 @@
 import bluetooth
 import thread
+from socket import error as SocketError
 
 name="bt_server"
 target_name="siggen"
