@@ -32,10 +32,11 @@ def handle_client(inputSocket,address):
         try:
             myjson=inputSocket.recv(1024)
 
-        except SocketError as e:
+        except bluetooth.btcommon.BluetoothError as e:
             print "client "+str(address)+" has disconnected"
             inputSocket.close()
-            time.sleep(0,001)
+	    return
+            #time.sleep(0,001)
 
 
         if not myjson:
