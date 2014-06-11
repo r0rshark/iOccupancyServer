@@ -32,7 +32,7 @@ def handle_client(inputSocket,address):
             data=inputSocket.recv(1024)
 	if not data:
 	  break
-	print "["+str(address)"]"+ " %s \n " % data
+	print "["+str(address)+"]"+ " %s \n " % data
     except SocketError as e:
         print "client "+str(address)+" has disconnected"
         inputSocket.close()
