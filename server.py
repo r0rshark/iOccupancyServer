@@ -27,16 +27,18 @@ def runServer():
 def handle_client(inputSocket,address):
 
     print "Spawing thread for " + str(address)
-    try:
+
         while True:
-            data=inputSocket.recv(1024)
-	if not data:
-	  break
-	print "["+str(address)+"]"+ " %s \n " % data
-    except SocketError as e:
-        print "client "+str(address)+" has disconnected"
-        inputSocket.close()
-        time.sleep(0,001)
+            try:
+                data=inputSocket.recv(1024)
+    	     if not data:
+                    break
+                print "["+str(address)+"]"+ " %s \n " % data
+
+            except SocketError as e:
+                print "client "+str(address)+" has disconnected"
+                inputSocket.close()
+                time.sleep(0,001)
 
 
 
