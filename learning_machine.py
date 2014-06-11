@@ -8,6 +8,7 @@ import pprint
 import pickle
 import plot
 
+
 measurements =[]
 target_ar = []
 inputDict = DictVectorizer(sparse=True)
@@ -68,6 +69,7 @@ def find_best_room(test_data):
   pprint.pprint(test_data)
   print "-----Test Data to be predicted normalized------\n"
   test_vec = DictVectorizer()
+
   test_data[0] = normalize_test(test_data[0],inputDict.get_feature_names())
   pprint.pprint(test_data[0])
 
@@ -104,6 +106,7 @@ def load_data():
 
   if (len(measurements)>0 and len(target_ar)>1):
     calculate_model()
+
     #plot.plot_data(measurements,target_ar,scaler)
 
 
