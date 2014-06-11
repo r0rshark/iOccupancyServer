@@ -29,7 +29,7 @@ def handle_client(inputSocket,address):
     print "Spawing thread for " + str(address)
     try:
         while True:
-	data=inputSocket.recv(1024)
+            data=inputSocket.recv(1024)
 	if not data:
 	  break
 	print "["+str(address)"]"+ " %s \n " % data
