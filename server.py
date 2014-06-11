@@ -1,6 +1,8 @@
+from model import Beacons,db,Locations
 import bluetooth
 import thread
 from socket import error as SocketError
+
 
 name="bt_server"
 target_name="siggen"
@@ -47,15 +49,29 @@ def handle_client(inputSocket,address):
         print "["+str(address)+"]"+ " %s \n " % data
 
         if (data['type'] == 'client'):
-            logic_on_client(data['data'])
-        if (data['type'] == 'server'):
-            logic_on_server(data['data'])
+            logic_on_client(data)
+        elif (data['type'] == 'server'):
+            logic_on_server(data)
+        else:
+            print "type has not been recognised"
 
 
 
 
 def logic_on_client(data):
-    pass
+    device = data['data']['device']
+    beacon = data['data']['beacon']
+    print "device "+device+" beacon "+beacon
+    if data['method'] =='post':
+        db.session.merge(Locations(device, beacon))
+        db.session.commit()
+        return
+    elif data['method'] =='delete':
+        loc =Locations.query.get(device)
+        if loc is None:
+            print "no location with this characteristic"
+        db.session.delete(loc)
+
 
 def logic_on_server(data):
     pass
