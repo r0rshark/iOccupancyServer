@@ -35,7 +35,7 @@ def handle_client(inputSocket,address):
         except bluetooth.btcommon.BluetoothError as e:
             print "client "+str(address)+" has disconnected"
             inputSocket.close()
-	    return
+	return
             #time.sleep(0,001)
 
 
@@ -57,7 +57,7 @@ def handle_client(inputSocket,address):
 def logic_on_client(data):
     pass
 
-def logic_on server(data):
+def logic_on_server(data):
     pass
 
 runServer()
