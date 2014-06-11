@@ -7,3 +7,4 @@ Flask-RESTful
 numpy
 scikit-learn
 scipy
+matplotlib
