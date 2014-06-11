@@ -30,19 +30,33 @@ def handle_client(inputSocket,address):
     print "Spawing thread for " + str(address)
     while True:
         try:
-            data=inputSocket.recv(1024)
+            myjson=inputSocket.recv(1024)
 
         except SocketError as e:
             print "client "+str(address)+" has disconnected"
             inputSocket.close()
             time.sleep(0,001)
 
-        if not data:
+
+        if not myjson:
             break
+
+        data = json.loads(myjson)
+
         print "["+str(address)+"]"+ " %s \n " % data
 
+        if (data['type'] == 'client'):
+            logic_on_client(data['data'])
+        if (data['type'] == 'server'):
+            logic_on_server(data['data'])
 
 
 
+
+def logic_on_client(data):
+    pass
+
+def logic_on server(data):
+    pass
 
 runServer()
