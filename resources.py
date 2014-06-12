@@ -5,7 +5,7 @@ from model import Beacons,db,Locations,Tests,Users,TrainingData,TrainingResult
 import learning_machine
 from datetime import datetime
 import pprint as pr
-import bluetooth_server
+
 
 
 

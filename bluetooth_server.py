@@ -91,7 +91,7 @@ def logic_on_client(data):
 def logic_on_server(data):
     if data['method'] == 'post':
         print "data "+str(data['data'])
-        pp.pprint(data['data'])
+
         test_data = []
         info ={}
 
@@ -112,4 +112,4 @@ def logic_on_server(data):
         db.session.delete(loc)
         db.session.commit()
 
-runServer()
+

@@ -3,6 +3,7 @@ from model import  Beacons, db, Tests,TrainingResult
 from flask_sqlalchemy import SQLAlchemy
 from flask.ext.restful import  Api
 from resources import *
+import bluetooth_server
 
 
 
@@ -53,10 +54,14 @@ def tests():
 def setup():
   learning_machine.load_data()
 
+def launch_bluetooth_server():
+  bluetooth_server.runServer()
+
 # Run
 
 if __name__ == '__main__':
     setup()
+    thread.start_new_thread( launch_bluetooth_server, None)
     app.run(
         host = "0.0.0.0",
         port = 80
