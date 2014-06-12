@@ -10,6 +10,7 @@ name="bt_server"
 target_name="siggen"
 #uuid="00001101-0000-1000-8000-00805F9B34FB"
 uuid="94f39d29-7d6d-437d-973b-fba39e49d4ee"
+
 def runServer():
     serverSocket=bluetooth.BluetoothSocket(bluetooth.RFCOMM )
     port=bluetooth.PORT_ANY
@@ -39,7 +40,7 @@ def handle_client(inputSocket,address):
         except bluetooth.btcommon.BluetoothError as e:
             print "client "+str(address)+" has disconnected"
             inputSocket.close()
-	return
+            return
             #time.sleep(0,001)
 
 
