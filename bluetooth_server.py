@@ -71,7 +71,7 @@ def test():
 
 def logic_on_client(data):
     device = data['device']
-    beacon = data['beacon']
+    beacon = data['id_beacon']
     print "device "+device+" beacon "+beacon
     if data['method'] =='post':
         db.session.merge(Locations(device, beacon))
