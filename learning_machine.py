@@ -106,8 +106,7 @@ def load_data():
 
   if (len(measurements)>0 and len(target_ar)>1):
     calculate_model()
-    #da sistemare
-    runServer()
+
 
     #plot.plot_data(measurements,target_ar,scaler)
 
