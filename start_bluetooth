@@ -1,0 +1,7 @@
+#!/bin/bash
+echo "Starting bluetooth...."
+hciconfig hci0 up
+hciconfig hci0 piscan
+hciconfig hci0 sspmode 0
+echo "Started bluetooth"
+
