@@ -62,7 +62,7 @@ def launch_bluetooth_server():
 
 if __name__ == '__main__':
     setup()
-    thread.start_new_thread( launch_bluetooth_server, (None))
+    thread.start_new_thread( launch_bluetooth_server,())
     app.run(
         host = "0.0.0.0",
         port = 80
