@@ -200,16 +200,42 @@ class testBasic(Resource):
 
 class testLearning(Resource):
   def post(self):
+
     req = request.json
-    fields= ["answer","strongest","correct"]
+    fields= ["answer","data"]
+
     #checking correctness of post message
     if not request.json or not  all(field in request.json for field in fields):
       print("POST with uncorrect fields")
       return "specify all field: answer,strongest,correct"
 
+    information = req["data"]
+
+    test_data = []
+    info ={}
+    for information in req:
+      info[information['id_beacon']]=information['distance']
+    test_data.append(info)
+
+
+    prediction = learning_machine.find_best_room(test_data)
+
+    #getting room from id_beacon
+    room =Locations.query.filter_by(id_beacon=prediction).first()
+    if room is None:
+      return "beacon not present in database"
+    print "prediction "+room
+
+    #checking if it is correct
+    if (room ==  req["answer"]):
+      correct =True
+    else :
+      correct=False
+
+
     #adding beacon to the beacons table
 
-    db.session.merge(TestsLearning(req["answer"],req["strongest"],req["correct"],datetime.now()))
+    db.session.merge(TestsLearning(req["answer"],room,correct,datetime.now()))
     db.session.flush()
     db.session.commit()
 

@@ -47,10 +47,25 @@ class Locations(db.Model):
         self.id_beacon = id_beacon
 
 
+#---------------------TEST------------------------
 
 
 class Tests(db.Model):
-    __tablename__ = "tests"
+    __tablename__ = "tests_basic"
+    answer = db.Column(db.String(255), primary_key=True)
+    strongest = db.Column(db.String(255), primary_key=True)
+    correct = db.Column(db.Integer)
+    date = db.Column(db.DateTime, primary_key=True)
+
+    def __init__(self,answer,strongest,correct,date):
+        self.answer = answer
+        self.strongest = strongest
+        self.correct = correct
+        self.date = date
+
+
+class TestsClient(db.Model):
+    __tablename__ = "tests_client"
     answer = db.Column(db.String(255), primary_key=True)
     strongest = db.Column(db.String(255), primary_key=True)
     correct = db.Column(db.Integer)
@@ -76,6 +91,8 @@ class TestsLearning(db.Model):
         self.date = date
 
 
+#----------------------Training-----------------------
+
 class TrainingData(db.Model):
     __tablename__ = 'trainingdata'
     id = db.Column(db.Integer, primary_key=True)
@@ -99,11 +116,22 @@ class TrainingResult(db.Model):
 
 
 
+class BeaconLocations(db.Model):
+    __tablename__="beacon_location"
+    id_beacon = db.Column(db.String(255), primary_key=True)
+    id_location = db.Column(db.String(255))
+
+
+    def __init__(self, id_beacon, id_location):
+        self.id_location = id_location
+        self.id_beacon = id_beacon
+
+
 
 
 
 
     def __repr__(self):
-        return '<Training %r>' % self.id
+        return '<BeaconLocations %r>' % self.id
 
 
