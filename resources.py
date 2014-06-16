@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask.ext.restful import Resource
 from flask_sqlalchemy import SQLAlchemy
-from model import Beacons,db,Locations,Tests,Users,TrainingData,TrainingResult
+from model import Beacons,db,Locations,Tests,Users,TrainingData,TrainingResult,TestsLearning,TestsClient
 import learning_machine
 from datetime import datetime
 import pprint as pr
@@ -181,7 +181,7 @@ class deviceFullLogic(Resource):
 
 
 
-class test(Resource):
+class testBasic(Resource):
   def post(self):
     req = request.json
     fields= ["answer","strongest","correct"]
@@ -197,6 +197,41 @@ class test(Resource):
     db.session.commit()
 
     return "OK"
+
+class testLearning(Resource):
+  def post(self):
+    req = request.json
+    fields= ["answer","strongest","correct"]
+    #checking correctness of post message
+    if not request.json or not  all(field in request.json for field in fields):
+      print("POST with uncorrect fields")
+      return "specify all field: answer,strongest,correct"
+
+    #adding beacon to the beacons table
+
+    db.session.merge(TestsLearning(req["answer"],req["strongest"],req["correct"],datetime.now()))
+    db.session.flush()
+    db.session.commit()
+
+    return "OK"
+
+class testClientFinal(Resource):
+  def post(self):
+    req = request.json
+    fields= ["answer","strongest","correct"]
+    #checking correctness of post message
+    if not request.json or not  all(field in request.json for field in fields):
+      print("POST with uncorrect fields")
+      return "specify all field: answer,strongest,correct"
+
+    #adding beacon to the beacons table
+
+    db.session.merge(TestsClient(req["answer"],req["strongest"],req["correct"],datetime.now()))
+    db.session.flush()
+    db.session.commit()
+
+    return "OK"
+
 
 
 

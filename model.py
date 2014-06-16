@@ -62,6 +62,20 @@ class Tests(db.Model):
         self.correct = correct
         self.date = date
 
+class TestsLearning(db.Model):
+    __tablename__ = "tests_learning"
+    answer = db.Column(db.String(255), primary_key=True)
+    strongest = db.Column(db.String(255), primary_key=True)
+    correct = db.Column(db.Integer)
+    date = db.Column(db.DateTime, primary_key=True)
+
+    def __init__(self,answer,strongest,correct,date):
+        self.answer = answer
+        self.strongest = strongest
+        self.correct = correct
+        self.date = date
+
+
 class TrainingData(db.Model):
     __tablename__ = 'trainingdata'
     id = db.Column(db.Integer, primary_key=True)

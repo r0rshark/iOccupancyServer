@@ -18,9 +18,11 @@ api = Api(app)
 api.add_resource(deviceMinimalLogic, '/ibeacon/<string:device>')
 api.add_resource(beaconMinimalLogic, '/ibeacon/<string:device>/<string:beacon>')
 api.add_resource(deviceFullLogic, '/ibeaconserver/<string:device>')
-api.add_resource(test, '/ibeacon/test')
+api.add_resource(testBasic, '/ibeacon/test_basic')
 api.add_resource(login,'/ibeacon/login')
 api.add_resource(training,'/ibeacon/training')
+api.add_resource(testLearning,'/ibeacon/testLearning')
+api.add_resource(testClientFinal,'/ibeacon/testClient')
 
 
 @app.before_first_request
