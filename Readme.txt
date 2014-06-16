@@ -11,7 +11,7 @@ Gli script a cui si fa riferimento sono nella cartella setup
   -controllare i campi user password host e database in model.py
   -lanciare lo script ./create_database.sh
 3)lanciare il server lanciare lo script start_server.sh
-4)Per installare scipy brew install gfortran
+4)Per installare scipy apt-get  install gfortran  libblas-dev liblapack-dev
 5) per installare matplotlib in linux installare le dipendenze:apt-get install libfreetype6-dev libjpeg8-dev libpng-dev
 6)bluetooth in linux installare bluez poi apt-get install libbluetooth-dev , python-bluez
   poi pip install pybluez
