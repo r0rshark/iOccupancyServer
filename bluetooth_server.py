@@ -46,8 +46,10 @@ def handle_client(inputSocket,address):
 
         if not myjson:
             break
-
-        data = json.loads(myjson)
+        try:
+            data = json.loads(myjson)
+        except ValueError:
+            continue
 
         print "["+str(address)+"]"+ " %s \n " % data
 
