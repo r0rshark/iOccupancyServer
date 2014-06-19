@@ -3,6 +3,7 @@ import learning_machine
 import bluetooth
 import thread
 import json
+import requests
 from socket import error as SocketError
 
 
@@ -10,6 +11,8 @@ name="bt_server"
 target_name="siggen"
 #uuid="00001101-0000-1000-8000-00805F9B34FB"
 uuid="94f39d29-7d6d-437d-973b-fba39e49d4ee"
+url_client_logic="127.0.0.1/ibeacon/"
+url_server_logic="127.0.0.1/ibeaconserver/"
 
 def runServer():
     serverSocket=bluetooth.BluetoothSocket(bluetooth.RFCOMM )
@@ -60,15 +63,7 @@ def handle_client(inputSocket,address):
         else:
             print "type has not been recognised"
 
-def test():
-    myjson=" {type:'client',method:('post'),data:{device:'device mac',beacon:'beacon id'}}"
-    data = json.loads(myjson)
-    if (data['type'] == 'client'):
-        logic_on_client(data)
-    elif (data['type'] == 'server'):
-        logic_on_server(data)
-    else:
-        print "type has not been recognised"
+
 
 
 def logic_on_client(data):
@@ -76,43 +71,34 @@ def logic_on_client(data):
     beacon = data['id_beacon']
     print "device "+device+" beacon "+beacon
     if data['method'] =='post':
-        db.session.merge(Locations(device, beacon))
-        db.session.commit()
-        return
+        complete_url = url_client_logic+device+"/"+beacon
+        print "post on url "+complete_url
+        r = requests.post(complete_url)
+        return str(r)
     elif data['method'] =='delete':
-        loc =Locations.query.get(device)
+        complete_url =url_client_logic+device
+        print "delete on url"+complete_url
+        r = requests.delete(complete_url)
+        return str(r)
 
-        if loc is None:
-            print "no location with this characteristic"
-            return
-        print str(loc)
-        db.session.delete(loc)
-        db.session.commit()
+
 
 
 
 def logic_on_server(data):
-    if data['method'] == 'post':
-        print "data "+str(data['data'])
+    if data['method'] == 'post'
 
-        test_data = []
-        info ={}
+        payload =data['data']
+        complete_url = url_server_logic+data['device']
+        print "post on url "+complete_url+" data "+str(payload)
+        r = requests.post(complete_url,params=payload)
+        return str(r)
 
-        for information in data['data']:
-            info[information['id_beacon']]=information['distance']
-        test_data.append(info)
-
-        prediction = learning_machine.find_best_room(test_data)
-        print str(prediction)
-        db.session.merge(Locations(data['device'],prediction))
-        db.session.commit()
 
     elif data['method'] == 'delete':
-        loc =Locations.query.get(data['device'])
-        if loc is None:
-            print "no location with this characteristic"
-            return
-        db.session.delete(loc)
-        db.session.commit()
+         complete_url =url_server_logic+device
+        print "delete on url"+complete_url
+        r = requests.delete(complete_url)
+        return str(r)
 
 

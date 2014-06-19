@@ -9,3 +9,4 @@ scikit-learn
 scipy
 matplotlib
 pybluez
+requests
