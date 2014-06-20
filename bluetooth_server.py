@@ -11,8 +11,8 @@ name="bt_server"
 target_name="siggen"
 #uuid="00001101-0000-1000-8000-00805F9B34FB"
 uuid="94f39d29-7d6d-437d-973b-fba39e49d4ee"
-url_client_logic="127.0.0.1/ibeacon/"
-url_server_logic="127.0.0.1/ibeaconserver/"
+url_client_logic="http://127.0.0.1/ibeacon/"
+url_server_logic="http://127.0.0.1/ibeaconserver/"
 
 def runServer():
     serverSocket=bluetooth.BluetoothSocket(bluetooth.RFCOMM )
@@ -34,11 +34,12 @@ def runServer():
 
 
 def handle_client(inputSocket,address):
-
     print "Spawing thread for " + str(address)
+    inputSocket.settimeout(None)
     while True:
         try:
             myjson=inputSocket.recv(1024)
+            
 
         except bluetooth.btcommon.BluetoothError as e:
             print "client "+str(address)+" has disconnected"
@@ -86,7 +87,7 @@ def logic_on_client(data):
 
 
 def logic_on_server(data):
-    if data['method'] == 'post'
+    if data['method'] == 'post':
 
         payload =data['data']
         complete_url = url_server_logic+data['device']
@@ -96,9 +97,9 @@ def logic_on_server(data):
 
 
     elif data['method'] == 'delete':
-         complete_url =url_server_logic+device
+        complete_url =url_server_logic+device
         print "delete on url"+complete_url
         r = requests.delete(complete_url)
         return str(r)
 
-
+runServer()
