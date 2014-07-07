@@ -2,6 +2,7 @@ import bluetooth
 import thread
 import json
 import requests
+import pprint.pprint as pp
 from socket import error as SocketError
 
 
@@ -102,7 +103,8 @@ def logic_on_server(data):
         complete_url = url_server_logic+data['device']
         print "post on url "+complete_url+" data "+str(payload)
         try:
-            r = requests.post(complete_url,params=payload)
+            header = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+            r = requests.post(complete_url,data=json.dumps(payload), headers=header)
             return str(r)
         except requests.exceptions.ConnectionError:
             print "failed to contact server"

@@ -128,6 +128,7 @@ class deviceFullLogic(Resource):
 
     def post(self,device):
       req = request.json
+
       '''
       print req[0]['id_beacon']
       fields= ["id_beacon","status","power","user"]
