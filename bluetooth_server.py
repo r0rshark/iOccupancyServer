@@ -9,8 +9,8 @@ name="bt_server"
 target_name="siggen"
 #uuid="00001101-0000-1000-8000-00805F9B34FB"
 uuid="94f39d29-7d6d-437d-973b-fba39e49d4ee"
-url_client_logic="http://127.0.0.1/ibeacon/"
-url_server_logic="http://127.0.0.1/ibeaconserver/"
+url_client_logic="http://192.168.0.152/ibeacon/"
+url_server_logic="http://192.168.0.152/ibeaconserver/"
 
 def runServer():
     serverSocket=bluetooth.BluetoothSocket(bluetooth.RFCOMM )
@@ -37,7 +37,7 @@ def handle_client(inputSocket,address):
     while True:
         try:
             myjson=inputSocket.recv(1024)
-            
+
 
         except bluetooth.btcommon.BluetoothError as e:
             print "client "+str(address)+" has disconnected"
@@ -73,10 +73,10 @@ def logic_on_client(data):
         complete_url = url_client_logic+device+"/"+beacon
         print "post on url "+complete_url
 
-       try :
+        try:
             r = requests.post(complete_url)
             return str(r)
-        except ConnectionError:
+        except requests.exceptions.ConnectionError:
             print "failed to conctact server"
             return "failed to conctact server"
     elif data['method'] =='delete':
@@ -85,7 +85,7 @@ def logic_on_client(data):
         try:
             r = requests.delete(complete_url)
             return str(r)
-        except ConnectionError:
+        except requests.exceptions.ConnectionError:
             print "failed to conctact server"
             return "failed to conctact server"
 
@@ -104,7 +104,7 @@ def logic_on_server(data):
         try:
             r = requests.post(complete_url,params=payload)
             return str(r)
-        except ConnectionError:
+        except requests.exceptions.ConnectionError:
             print "failed to conctact server"
             return "failed to conctact server"
 
@@ -115,7 +115,7 @@ def logic_on_server(data):
         try:
             r = requests.delete(complete_url)
             return str(r)
-        except ConnectionError:
+        except requests.exceptions.ConnectionError:
             print "failed to conctact server"
             return "failed to conctact server"
 
