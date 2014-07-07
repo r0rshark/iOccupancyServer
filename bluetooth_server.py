@@ -77,8 +77,8 @@ def logic_on_client(data):
             r = requests.post(complete_url)
             return str(r)
         except requests.exceptions.ConnectionError:
-            print "failed to conctact server"
-            return "failed to conctact server"
+            print "failed to contact server"
+            return "failed to contact server"
     elif data['method'] =='delete':
         complete_url =url_client_logic+device
         print "delete on url"+complete_url
@@ -86,8 +86,8 @@ def logic_on_client(data):
             r = requests.delete(complete_url)
             return str(r)
         except requests.exceptions.ConnectionError:
-            print "failed to conctact server"
-            return "failed to conctact server"
+            print "failed to contact server"
+            return "failed to contact server"
 
 
 
@@ -105,8 +105,8 @@ def logic_on_server(data):
             r = requests.post(complete_url,params=payload)
             return str(r)
         except requests.exceptions.ConnectionError:
-            print "failed to conctact server"
-            return "failed to conctact server"
+            print "failed to contact server"
+            return "failed to contact server"
 
 
     elif data['method'] == 'delete':
@@ -116,7 +116,7 @@ def logic_on_server(data):
             r = requests.delete(complete_url)
             return str(r)
         except requests.exceptions.ConnectionError:
-            print "failed to conctact server"
-            return "failed to conctact server"
+            print "failed to contact server"
+            return "failed to contact server"
 
 runServer()

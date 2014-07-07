@@ -218,35 +218,32 @@ class testLearning(Resource):
       return "specify all field: answer,strongest,correct"
 
     information = req["data"]
-    print "information "
-    pr(information)
+
     test_data = []
     info ={}
-    for information in req:
-      info[information['id_beacon']]=information['distance']
-    print "info "
-    pr(info)
+    for dat in information:
+      info[dat['id_beacon']]=dat['distance']
+
     test_data.append(info)
 
 
     prediction = learning_machine.find_best_room(test_data)
+    print "prediction "+str(prediction)
+    print "answer "+req["answer"]
 
-    #getting room from id_beacon
-    room =Locations.query.filter_by(id_beacon=prediction).first()
-    if room is None:
-      return "beacon not present in database"
-    print "prediction "+room
 
     #checking if it is correct
-    if (room ==  req["answer"]):
+    if (prediction ==  req["answer"]):
+      print "correct"
       correct =True
     else :
+      print "wrong"
       correct=False
 
 
     #adding beacon to the beacons table
 
-    db.session.merge(TestsLearning(req["answer"],room,correct,datetime.now()))
+    db.session.merge(TestsLearning(req["answer"],prediction,correct,datetime.now()))
     db.session.flush()
     db.session.commit()
 

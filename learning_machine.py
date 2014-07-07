@@ -84,8 +84,8 @@ def find_best_room(test_data):
   clf = pickle.loads(myclf)
   prediction = clf.predict(test)
   print '##########################Result######################\n'
-  print str(prediction)+"\n\n"
-  return prediction
+  print str(prediction[0])+"\n\n"
+  return prediction[0]
 
 
 
