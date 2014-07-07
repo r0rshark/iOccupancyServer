@@ -52,10 +52,11 @@ class Locations(db.Model):
 
 class Tests(db.Model):
     __tablename__ = "tests_basic"
-    answer = db.Column(db.String(255), primary_key=True)
-    strongest = db.Column(db.String(255), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    answer = db.Column(db.String(255))
+    strongest = db.Column(db.String(255))
     correct = db.Column(db.Integer)
-    date = db.Column(db.DateTime, primary_key=True)
+    date = db.Column(db.DateTime)
 
     def __init__(self,answer,strongest,correct,date):
         self.answer = answer
@@ -66,10 +67,11 @@ class Tests(db.Model):
 
 class TestsClient(db.Model):
     __tablename__ = "tests_client"
-    answer = db.Column(db.String(255), primary_key=True)
-    strongest = db.Column(db.String(255), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    answer = db.Column(db.String(255))
+    strongest = db.Column(db.String(255))
     correct = db.Column(db.Integer)
-    date = db.Column(db.DateTime, primary_key=True)
+    date = db.Column(db.DateTime)
 
     def __init__(self,answer,strongest,correct,date):
         self.answer = answer
@@ -79,10 +81,11 @@ class TestsClient(db.Model):
 
 class TestsLearning(db.Model):
     __tablename__ = "tests_learning"
-    answer = db.Column(db.String(255), primary_key=True)
-    strongest = db.Column(db.String(255), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    answer = db.Column(db.String(255))
+    strongest = db.Column(db.String(255))
     correct = db.Column(db.Integer)
-    date = db.Column(db.DateTime, primary_key=True)
+    date = db.Column(db.DateTime)
 
     def __init__(self,answer,strongest,correct,date):
         self.answer = answer

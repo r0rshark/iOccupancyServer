@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask.ext.restful import Resource
 from flask_sqlalchemy import SQLAlchemy
-from model import Beacons,db,Locations,Tests,Users,TrainingData,TrainingResult,TestsLearning,TestsClient
+from model import Beacons,db,Locations,Tests,Users,TrainingData,TrainingResult,TestsLearning,TestsClient, BeaconLocations
 import learning_machine
 from datetime import datetime
 import pprint as pr
@@ -58,7 +58,15 @@ class beaconMinimalLogic(Resource):
   def post(self,device,beacon):
 
     print "recieved location" + beacon +"from "+device
-    db.session.merge(Locations(device, beacon))
+    beaconloc = BeaconLocations.query.filter_by(id_beacon=beacon).first()
+    room = beaconloc.id_location
+    if room is  None:
+      print "room not found in database BeaconLocations"
+      return ""
+
+    print "------  " + device +" -> "+room+"-----"
+
+    db.session.merge(Locations(device, room))
     db.session.commit()
     return "OK"
 
@@ -210,11 +218,14 @@ class testLearning(Resource):
       return "specify all field: answer,strongest,correct"
 
     information = req["data"]
-
+    print "information "
+    pr(information)
     test_data = []
     info ={}
     for information in req:
       info[information['id_beacon']]=information['distance']
+    print "info "
+    pr(info)
     test_data.append(info)
 
 
@@ -251,6 +262,8 @@ class testClientFinal(Resource):
       return "specify all field: answer,strongest,correct"
 
     #adding beacon to the beacons table
+
+
 
     db.session.merge(TestsClient(req["answer"],req["strongest"],req["correct"],datetime.now()))
     db.session.flush()

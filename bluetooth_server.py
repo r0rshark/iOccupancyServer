@@ -1,5 +1,3 @@
-from model import Beacons,db,Locations
-import learning_machine
 import bluetooth
 import thread
 import json
@@ -73,13 +71,24 @@ def logic_on_client(data):
     if data['method'] =='post':
         complete_url = url_client_logic+device+"/"+beacon
         print "post on url "+complete_url
-        r = requests.post(complete_url)
-        return str(r)
+
+       try :
+            r = requests.post(complete_url)
+            return str(r)
+        except ConnectionError:
+            print "failed to conctact server"
+            return "failed to conctact server"
     elif data['method'] =='delete':
         complete_url =url_client_logic+device
         print "delete on url"+complete_url
-        r = requests.delete(complete_url)
-        return str(r)
+        try:
+            r = requests.delete(complete_url)
+            return str(r)
+        except ConnectionError:
+            print "failed to conctact server"
+            return "failed to conctact server"
+
+
 
 
 
@@ -91,14 +100,22 @@ def logic_on_server(data):
         payload =data['data']
         complete_url = url_server_logic+data['device']
         print "post on url "+complete_url+" data "+str(payload)
-        r = requests.post(complete_url,params=payload)
-        return str(r)
+        try:
+            r = requests.post(complete_url,params=payload)
+            return str(r)
+        except ConnectionError:
+            print "failed to conctact server"
+            return "failed to conctact server"
 
 
     elif data['method'] == 'delete':
          complete_url =url_server_logic+device
         print "delete on url"+complete_url
-        r = requests.delete(complete_url)
-        return str(r)
+        try:
+            r = requests.delete(complete_url)
+            return str(r)
+        except ConnectionError:
+            print "failed to conctact server"
+            return "failed to conctact server"
 
 
