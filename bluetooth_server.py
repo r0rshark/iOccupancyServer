@@ -2,7 +2,6 @@ import bluetooth
 import thread
 import json
 import requests
-import pprint.pprint as pp
 from socket import error as SocketError
 
 
@@ -28,6 +27,7 @@ def runServer():
     while True:
         print "waiting connection"
         inputSocket, address=serverSocket.accept()
+        print "address"+str(address)
         thread.start_new_thread( handle_client, (inputSocket, address ))
 
 
