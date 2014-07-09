@@ -1,6 +1,5 @@
 from sklearn import datasets, preprocessing
 from sklearn.feature_extraction import DictVectorizer
-from sklearn.datasets import load_iris
 from model import db,TrainingResult
 from sklearn import svm
 import numpy
@@ -110,7 +109,7 @@ def load_data():
     calculate_model()
 
    # kp.define_kernel_param(measurements,target_ar,scaler)
-    plot.plot_data(measurements,target_ar,scaler)
+   # plot.plot_data(measurements,target_ar,scaler)
 
 
   '''

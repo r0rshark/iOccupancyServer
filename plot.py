@@ -77,7 +77,6 @@ def print_confusion_matrix(x_set,y_set):
   lenght = len(y_set)/2
   print "lenght "+str(lenght)
 
-
   x_train= x_set[0:lenght]
   print "x_train lenght "+str(len(x_train))
   pp(x_train)
