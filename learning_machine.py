@@ -7,6 +7,8 @@ import numpy
 import pprint
 import pickle
 import plot
+import kernelparam as kp
+
 
 
 measurements =[]
@@ -51,7 +53,7 @@ def calculate_model():
 
 
 
-  clf = svm.SVC(gamma=0.001, C=100.)
+  clf = svm.SVC(gamma=0.7, C=1.)
   clf.fit(data, target)
   print "saving model\n"
 
@@ -107,8 +109,8 @@ def load_data():
   if (len(measurements)>0 and len(target_ar)>1):
     calculate_model()
 
-
-    #plot.plot_data(measurements,target_ar,scaler)
+   # kp.define_kernel_param(measurements,target_ar,scaler)
+    plot.plot_data(measurements,target_ar,scaler)
 
 
   '''
