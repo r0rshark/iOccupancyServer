@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, jsonify
-from model import  Beacons, db, Tests,TrainingResult
+from iBeaconOccupancy.model import  Beacons, db, Tests,TrainingResult
 from flask_sqlalchemy import SQLAlchemy
 from flask.ext.restful import  Api
-from resources import *
+from iBeaconOccupancy.machine_learning import machine_learning
+from iBeaconOccupancy.resources import *
+
 #import bluetooth_server
 import thread
 
@@ -15,14 +17,13 @@ app = Flask(__name__)
 
 
 api = Api(app)
-api.add_resource(deviceMinimalLogic, '/ibeacon/<string:device>')
-api.add_resource(beaconMinimalLogic, '/ibeacon/<string:device>/<string:beacon>')
-api.add_resource(deviceFullLogic, '/ibeaconserver/<string:device>')
-api.add_resource(testBasic, '/ibeacon/test_basic')
-api.add_resource(login,'/ibeacon/login')
-api.add_resource(training,'/ibeacon/training')
-api.add_resource(testLearning,'/ibeacon/testLearning')
-api.add_resource(testClientFinal,'/ibeacon/testClient')
+api.add_resource(proximity.beaconMinimalLogic, '/ibeacon/<string:device>/<string:beacon>')
+api.add_resource(proximity.deviceMinimalLogic, '/ibeacon/<string:device>')
+api.add_resource(scene_analysis.deviceFullLogic, '/ibeaconserver/<string:device>')
+api.add_resource(test.testBasic, '/ibeacon/test_basic')
+api.add_resource(training.training,'/ibeacon/training')
+api.add_resource(test.testLearning,'/ibeacon/testLearning')
+api.add_resource(test.testClientFinal,'/ibeacon/testClient')
 
 
 @app.before_first_request
@@ -55,7 +56,7 @@ def tests():
 
 
 def setup():
-  learning_machine.load_data()
+  machine_learning.load_data()
 
 #def launch_bluetooth_server():
  # bluetooth_server.runServer()
