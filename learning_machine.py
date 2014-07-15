@@ -5,8 +5,7 @@ from sklearn import svm
 import numpy
 import pprint
 import pickle
-import plot
-import kernelparam as kp
+
 
 
 
@@ -108,8 +107,6 @@ def load_data():
   if (len(measurements)>0 and len(target_ar)>1):
     calculate_model()
 
-   # kp.define_kernel_param(measurements,target_ar,scaler)
-   # plot.plot_data(measurements,target_ar,scaler)
 
 
   '''

@@ -9,20 +9,8 @@ from sklearn.grid_search import GridSearchCV
 from sklearn import preprocessing
 from sklearn.feature_extraction import DictVectorizer
 
-def define_kernel_param(measurements,target_ar,scaler):
-  print "defining kernel params"
-  inputDict = DictVectorizer(sparse=True)
-  data = inputDict.fit_transform(measurements).toarray()
+def define_kernel_param(X,Y):
 
-
-  scaled_data = scaler.transform(data)
-  X = scaled_data  # we only take the first two features. We could
-                        # avoid this ugly slicing by using a two-dim dataset
-  le = preprocessing.LabelEncoder()
-  le.fit(target_ar)
-  target = le.transform(target_ar)
-
-  Y = np.array(target)
 
 
 

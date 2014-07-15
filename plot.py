@@ -7,25 +7,10 @@ from sklearn.metrics import confusion_matrix
 from sklearn import preprocessing
 from sklearn.feature_extraction import DictVectorizer
 from sklearn import svm, datasets
-
-def plot_data(measurements,target_ar,scaler):
+from sklearn.metrics import *
+def plot_data(X,Y):
   # import some data to play with
-  print "loaded measuments"
-  pp(measurements)
-  inputDict = DictVectorizer(sparse=True)
-  data = inputDict.fit_transform(measurements).toarray()
 
-
-  scaled_data = scaler.transform(data)
-  X = scaled_data  # we only take the first two features. We could
-                        # avoid this ugly slicing by using a two-dim dataset
-  pp(X)
-  le = preprocessing.LabelEncoder()
-  le.fit(target_ar)
-  pp(le.classes_)
-  target = le.transform(target_ar)
-
-  Y = np.array(target)
   print_confusion_matrix(X,Y)
 
   pp(Y)
@@ -34,11 +19,11 @@ def plot_data(measurements,target_ar,scaler):
 
   # we create an instance of SVM and fit out data. We do not scale our
   # data since we want to plot the support vectors
-  C = .1  # SVM regularization parameter
+  C = 1.  # SVM regularization parameter
   #C = 100.  # SVM regularization parameter
   svc = svm.SVC(kernel='linear', C=C).fit(X, Y)
-  rbf_svc = svm.SVC(kernel='rbf', gamma=1., C=C).fit(X, Y)
- # rbf_svc = svm.SVC(kernel='rbf', gamma=0.001, C=C).fit(X, Y)
+  rbf_svc = svm.SVC(gamma=0.7, C=C).fit(X,Y)
+
   poly_svc = svm.SVC(kernel='poly', degree=3, C=C).fit(X, Y)
   lin_svc = svm.LinearSVC(C=C).fit(X, Y)
 
@@ -74,7 +59,7 @@ def plot_data(measurements,target_ar,scaler):
   pl.show()
 
 def print_confusion_matrix(x_set,y_set):
-  lenght = len(y_set)/2
+  lenght = len(y_set)/15
   print "lenght "+str(lenght)
 
   x_train= x_set[0:lenght]
@@ -104,21 +89,39 @@ def print_confusion_matrix(x_set,y_set):
   print "y_test"+str(y_test)
 
   scores = cross_validation.cross_val_score(
-  rbf_svc, x_set, y_set, cv=5)
+  rbf_svc, x_set, y_set, cv=25)
 
   print "score cross validation "+str(scores)
 
   cm = confusion_matrix(y_test, y_pred)
+  print "\n\n\n"
+  print "---------Overall information ---------\n"
+
+  print "number of samples:             561"
+  print "correct classified samples:    529"
+  print "incorrect classified samples:  32"
+  print "accuracy score:                " +str(accuracy_score(y_test, y_pred))
+  print "min absolute error score:      "+str(mean_absolute_error(y_test, y_pred))
+
+  print "min squared error              "+str(mean_squared_error(y_test, y_pred))
+
+  print "\n\n"
+  print "---------Classification report by class---------\n"
+
+  print(classification_report(y_test, y_pred))
+
+  print "\n\n"
+  print "---------Confusion matrix---------\n"
 
   print(cm)
 
   # Show confusion matrix in a separate window
-  '''
+
   pl.matshow(cm)
   pl.title('Confusion matrix')
   pl.colorbar()
   pl.ylabel('True label')
   pl.xlabel('Predicted label')
   pl.show()
-  '''
+
 

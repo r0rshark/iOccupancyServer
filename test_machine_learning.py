@@ -1,7 +1,9 @@
+#!/usr/bin/env python
 
 from model import db,TrainingResult
 from sklearn import datasets, preprocessing,svm
 from sklearn.feature_extraction import DictVectorizer
+import optparse
 import pickle
 import pprint
 import plot
@@ -17,11 +19,44 @@ scaler = preprocessing.StandardScaler()
 myclf = None
 
 def main():
+  X = []
+  Y =[]
+  p = optparse.OptionParser(description='Show different info for parameter tuning',
+                            prog='SVMTuning',
+                            version='0.1',
+                            usage='%prog [options] at least one parameter')
+  p.add_option('-p', '--plot', action ='store_true', help='plot the data in a graphic')
+  p.add_option('-c', '--confusion', action ='store_true', help='show confusion matrix')
+  p.add_option('-t', '--tuning', action ='store_true', help='try to find the best parameter for the ')
+
+  options, arguments = p.parse_args()
+  print type(options)
+  p.print_help()
+
   load_data()
+
   if (len(measurements)>0 and len(target_ar)>1):
-      calculate_model()
-      #kp.define_kernel_param(measurements,target_ar,scaler)
-      plot.plot_data(measurements,target_ar,scaler)
+    calculate_model()
+    data = inputDict.fit_transform(measurements).toarray()
+    scaled_data = scaler.transform(data)
+    X = scaled_data  # we only take the first two features. We could
+                        # avoid this ugly slicing by using a two-dim dataset
+    le = preprocessing.LabelEncoder()
+    le.fit(target_ar)
+    target = le.transform(target_ar)
+
+    Y = numpy.array(target)
+    #kp.define_kernel_param(measurements,target_ar,scaler)
+    if options.plot:
+      plot.plot_data(X,Y)
+    elif options.confusion:
+      plot.print_confusion_matrix(X,Y)
+    elif options.tuning:
+      kp.define_kernel_param(X,Y)
+
+
+
+
 
 
 
