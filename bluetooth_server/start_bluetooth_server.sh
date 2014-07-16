@@ -1,3 +1,3 @@
 ./start_bluetooth
-.. venv/bin/activate
+. venv/bin/activate
 python bluetooth_server.py

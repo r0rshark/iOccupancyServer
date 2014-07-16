@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
-from iBeaconOccupancy.model import  Beacons, db, Tests,TrainingResult
+from iBeaconOccupancy.model.beacons import  *
+from iBeaconOccupancy.model.tests import  *
 from flask_sqlalchemy import SQLAlchemy
 from flask.ext.restful import  Api
 from iBeaconOccupancy.machine_learning import machine_learning

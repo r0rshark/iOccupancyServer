@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask.ext.restful import Resource
 from flask_sqlalchemy import SQLAlchemy
-from iBeaconOccupancy.model import db,TrainingData,TrainingResult
+from iBeaconOccupancy.model.training import *
 import pprint as pr
 
 

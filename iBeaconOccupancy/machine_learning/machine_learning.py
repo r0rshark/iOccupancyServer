@@ -1,6 +1,6 @@
 from sklearn import datasets, preprocessing
 from sklearn.feature_extraction import DictVectorizer
-from iBeaconOccupancy.model import db,TrainingResult
+from iBeaconOccupancy.model.training import *
 from sklearn import svm
 import numpy
 import pprint
