@@ -10,7 +10,7 @@
   -create a mysql user  and  a  database
   -check the fields  user password host  database in iBeaconOccupancy/model/config.py
   -create database  through script: ./create_database.sh
-3)launch the server with sudo because runs over port 80: ./start_server.sh
+3)launch the server with sudo because runs over port 80:sudo ./start_server.sh
 
 Library notes
 SQLAlchemy =>  libmysqlclient-dev e  python-dev
