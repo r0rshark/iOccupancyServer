@@ -1,7 +1,18 @@
 #!/bin/bash
 echo "Starting bluetooth...."
 hciconfig hci0 up
+RESULT1=$?
 hciconfig hci0 piscan
+RESULT2=$?
 hciconfig hci0 sspmode 0
-echo "Started bluetooth"
+RESULT3=$?
+echo $RESULT1 $RESULT2 $RESULT3
+if [ $RESULT1 -eq 0 -a  $RESULT2 -eq 0 -a $RESULT3 -eq 0 ]; then
+  echo "Bluetooth started"
+  exit 0
+else
+  echo "Failed "
+  exit 1
+fi
+
 
