@@ -35,14 +35,8 @@ def setup():
 
 
 
+
 @app.route('/')
-def index():
-
-  # Render template
-  locations = db.session.query(Beacons).all()
-  return render_template('request.html', data=locations)
-
-@app.route('/location')
 def location():
 
   # Render template
@@ -52,22 +46,25 @@ def location():
 @app.route('/tests')
 def tests():
   # Render template
-  local = db.session.query(Tests).all()
+  local = db.session.query(TestsLearning).all()
+  return render_template('tests.html', data=local)
+
+@app.route('/testsclient')
+def testsclient():
+  # Render template
+  local = db.session.query(TestsClient).all()
   return render_template('tests.html', data=local)
 
 
 def setup():
   machine_learning.load_data()
 
-#def launch_bluetooth_server():
- # bluetooth_server.runServer()
 
-# Run
+
 
 setup()
 if __name__ == '__main__':
 
-   # thread.start_new_thread( launch_bluetooth_server,())
     app.run(
 
         host = "0.0.0.0",

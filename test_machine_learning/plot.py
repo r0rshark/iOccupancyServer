@@ -8,6 +8,7 @@ from sklearn import preprocessing
 from sklearn.feature_extraction import DictVectorizer
 from sklearn import svm, datasets
 from sklearn.metrics import *
+
 def plot_data(X,Y):
   # import some data to play with
 
@@ -56,8 +57,10 @@ def plot_data(X,Y):
 
   pl.show()
 
+#use the first 1/4 of data to feed the model and test the rest of the set in order to evaluate it
 def print_confusion_matrix(x_set,y_set):
-  lenght = len(y_set)/15
+
+  lenght = len(y_set)/4
   print "lenght "+str(lenght)
 
   x_train= x_set[0:lenght]
@@ -81,7 +84,7 @@ def print_confusion_matrix(x_set,y_set):
 
 
   print "--------prediction------------"
-  rbf_svc = svm.SVC(kernel='rbf', gamma=0.7, C=1.0).fit(x_train, y_train)
+  rbf_svc = svm.SVC(kernel='rbf', gamma=0.7, C=1.0).fit(x_train, y_train)   #model which I want to test
   y_pred = rbf_svc.predict(x_test)
   print "y_pred "+str(y_pred)
   print "y_test"+str(y_test)
@@ -95,9 +98,7 @@ def print_confusion_matrix(x_set,y_set):
   print "\n\n\n"
   print "---------Overall information ---------\n"
 
-  print "number of samples:             561"
-  print "correct classified samples:    529"
-  print "incorrect classified samples:  32"
+
   print "accuracy score:                " +str(accuracy_score(y_test, y_pred))
   print "min absolute error score:      "+str(mean_absolute_error(y_test, y_pred))
 

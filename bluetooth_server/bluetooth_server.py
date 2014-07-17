@@ -7,7 +7,6 @@ from socket import error as SocketError
 
 name="bt_server"
 target_name="siggen"
-#uuid="00001101-0000-1000-8000-00805F9B34FB"
 uuid="94f39d29-7d6d-437d-973b-fba39e49d4ee"
 url_client_logic="http://192.168.0.152/ibeacon/"
 url_server_logic="http://192.168.0.152/ibeaconserver/"
@@ -20,7 +19,6 @@ def runServer():
     serverSocket.listen(2)
     port=serverSocket.getsockname()[1]
 
-    #the missing piece
     bluetooth.advertise_service( serverSocket, "SampleServer",service_id = uuid,service_classes = [ uuid, bluetooth.SERIAL_PORT_CLASS ], profiles = [ bluetooth.SERIAL_PORT_PROFILE ])
 
 
@@ -121,4 +119,7 @@ def logic_on_server(data):
             print "failed to contact server"
             return "failed to contact server"
 
-runServer()
+if __name__ == '__main__':
+    runServer()
+
+
