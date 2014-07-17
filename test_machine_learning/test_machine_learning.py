@@ -3,7 +3,7 @@ import sys,os
 sys.path.insert(0,os.path.abspath(__file__+"/../.."))
 
 
-from  iBeaconOccupancy.model import db, TrainingResult, TrainingData
+from  iBeaconOccupancy.model.training import *
 from sklearn import datasets, preprocessing,svm
 from sklearn.feature_extraction import DictVectorizer
 import optparse
@@ -50,7 +50,6 @@ def main():
 
     Y = numpy.array(target)
     #kp.define_kernel_param(measurements,target_ar,scaler)
-    pprint.pprint(options)
     if options.plot:
       print "plot"
       plot.plot_data(X,Y)

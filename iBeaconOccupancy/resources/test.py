@@ -3,6 +3,8 @@ from flask.ext.restful import Resource
 from flask_sqlalchemy import SQLAlchemy
 from iBeaconOccupancy.model.beacons  import *
 from iBeaconOccupancy.model.tests  import *
+from ..machine_learning import machine_learning
+from datetime import datetime
 import pprint as pr
 
 
@@ -45,7 +47,7 @@ class testLearning(Resource):
     test_data.append(info)
 
 
-    prediction = learning_machine.find_best_room(test_data)
+    prediction = machine_learning.find_best_room(test_data)
     print "prediction "+str(prediction)
     print "answer "+req["answer"]
 
