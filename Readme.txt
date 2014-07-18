@@ -12,6 +12,9 @@
   -create database  through script: ./create_database.sh
 3)launch the server with sudo because runs over port 80:sudo ./start_server.sh
 
+NB
+All scripts must be modified with "chmod +x"
+
 Library notes
 SQLAlchemy =>  libmysqlclient-dev e  python-dev
 scipy            =>  gfortran  libblas-dev liblapack-dev if any problem http://scikit-learn.org/stable/install.html
