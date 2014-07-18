@@ -10,13 +10,14 @@ target_name="siggen"
 uuid="94f39d29-7d6d-437d-973b-fba39e49d4ee"
 url_client_logic="http://192.168.0.105/ibeacon/"
 url_server_logic="http://192.168.0.105/ibeaconserver/"
+number_to_listen=2
 
 def runServer():
     serverSocket=bluetooth.BluetoothSocket(bluetooth.RFCOMM )
     port=bluetooth.PORT_ANY
     serverSocket.bind(("",port))
     print "Listening for connections on port: ", port
-    serverSocket.listen(2)
+    serverSocket.listen(number_to_listen)
     port=serverSocket.getsockname()[1]
 
     bluetooth.advertise_service( serverSocket, "SampleServer",service_id = uuid,service_classes = [ uuid, bluetooth.SERIAL_PORT_CLASS ], profiles = [ bluetooth.SERIAL_PORT_PROFILE ])

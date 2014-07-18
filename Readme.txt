@@ -13,7 +13,7 @@
 3)launch the server with sudo because runs over port 80:sudo ./start_server.sh
 
 NB
-All scripts must be modified with "chmod +x"
+All scripts must be modified with "chmod +x". If you want to change the port listening by the server just change the port number variable in tornado_laucher.py
 
 Library notes
 SQLAlchemy =>  libmysqlclient-dev e  python-dev
