@@ -1,0 +1,5 @@
+#!/bin/bash
+echo "Stopping iBeacon"
+hciconfig hci0 noleadv 
+echo "iBeacon stopped!"
+
