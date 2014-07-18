@@ -9,7 +9,7 @@ from sklearn.feature_extraction import DictVectorizer
 import optparse
 import pickle
 import pprint
-import plot
+import svc_plot
 import kernelparam as kp
 import numpy
 
@@ -52,10 +52,10 @@ def main():
     #kp.define_kernel_param(measurements,target_ar,scaler)
     if options.plot:
       print "plot"
-      plot.plot_data(X,Y)
+      svc_plot.plot_data(X,Y)
     if options.confusion:
       print "confusion"
-      plot.print_confusion_matrix(X,Y)
+      svc_plot.print_confusion_matrix(X,Y)
     if options.tuning:
       kp.define_kernel_param(X,Y)
 

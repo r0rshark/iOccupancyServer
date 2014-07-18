@@ -2,7 +2,7 @@ import numpy as np
 import pylab as pl
 
 from sklearn.svm import SVC
-from sklearn.preprocessing import Scaler
+from sklearn.preprocessing import StandardScaler
 from sklearn.datasets import load_iris
 from sklearn.cross_validation import StratifiedKFold
 from sklearn.grid_search import GridSearchCV
@@ -30,7 +30,7 @@ def define_kernel_param(X,Y):
 
   param_grid = dict(gamma=gamma_range, C=C_range)
 
-  grid = GridSearchCV(SVC(), param_grid=param_grid, cv=StratifiedKFold(y=Y, k=5))
+  grid = GridSearchCV(SVC(), param_grid=param_grid, cv=StratifiedKFold(y=Y, n_folds=5))
 
   grid.fit(X, Y)
 

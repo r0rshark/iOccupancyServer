@@ -12,6 +12,9 @@ class beaconMinimalLogic(Resource):
 
     print "recieved location" + beacon +"from "+device
     beaconloc = BeaconLocations.query.filter_by(id_beacon=beacon).first()
+    if beaconloc is None:
+      print "room not found in database BeaconLocations"
+      return ""
     room = beaconloc.id_location
     if room is  None:
       print "room not found in database BeaconLocations"

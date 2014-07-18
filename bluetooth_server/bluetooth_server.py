@@ -8,8 +8,8 @@ from socket import error as SocketError
 name="bt_server"
 target_name="siggen"
 uuid="94f39d29-7d6d-437d-973b-fba39e49d4ee"
-url_client_logic="http://192.168.0.152/ibeacon/"
-url_server_logic="http://192.168.0.152/ibeaconserver/"
+url_client_logic="http://192.168.0.105/ibeacon/"
+url_server_logic="http://192.168.0.105/ibeaconserver/"
 
 def runServer():
     serverSocket=bluetooth.BluetoothSocket(bluetooth.RFCOMM )
