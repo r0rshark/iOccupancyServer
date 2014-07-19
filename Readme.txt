@@ -2,6 +2,7 @@
   -run virtualenv inside the projec folder: virtualenv venv
   -activate virtualenv: . venv/bin/activate
   -download other usefull library: libmysqlclient-dev  python-dev  gfortran  libblas-dev liblapack-dev
+  -if you are using a raspberry in order to install the follow requirements you have to give to compiler all ram, otherwise you cannot compile them. To do this open a terminal and with root privileges launch "raspi-config". On the screen select "Advance options" → "Memory split" → set "16" as memory for the gpu. After compiling you can restore the previous value.
   -install python packages: pip install -r requirements.txt
 
 2) create   database:
