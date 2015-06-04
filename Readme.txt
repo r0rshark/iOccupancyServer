@@ -1,3 +1,7 @@
+Server side application of Occupancy detection via iBeacon on Android devices project.
+System which exploits the iBeacon technology to make indoor position detection inside smart buildings
+
+Installation Guide:
 1)download virtualenv: sudo apt-get install python-virtualenv
   -run virtualenv inside the projec folder: virtualenv venv
   -activate virtualenv: . venv/bin/activate
