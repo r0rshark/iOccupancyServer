@@ -2,7 +2,7 @@
 ##General Description
 
 Server side application of Occupancy detection via iBeacon on Android devices project: system which exploits the iBeacon technology to make indoor position detection.
-The server uses the data coming from the Android devices (set of approximated distances from the iBeacon transmitters located in different positions) to create a model through the Support Vector Machines methods in order to determine in which room the device is located.
+The server **collects the data** coming from the Android devices (set of approximated distances from the iBeacon transmitters located in different positions) to **create a model through the Support Vector Machines** methods in order to **determine in which room the device is located**.
 
 
 ##Installation Guide:
