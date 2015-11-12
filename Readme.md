@@ -8,19 +8,19 @@ The server uses the data coming from the Android devices (set of approximated di
 ##Installation Guide:
 
 #### Environment Setup
-*Download virtualenv: ```sudo apt-get install python-virtualenv```
-* run virtualenv inside the projec folder: ```virtualenv venv```
-* activate virtualenv: ```. venv/bin/activate```
-* download other usefull library: ```libmysqlclient-dev  python-dev  gfortran  libblas-dev liblapack-dev```
-* if you are using a raspberry in order to install the follow requirements you have to give to compiler all ram, otherwise you cannot compile them. To do this open a terminal and with root privileges launch "raspi-config". On the screen select "Advance options" → "Memory split" → set "16" as memory for the gpu. After compiling you can restore the previous value.
-* install python packages: ```pip install -r requirements.txt```
+* Download virtualenv: ```sudo apt-get install python-virtualenv```
+* Run virtualenv inside the projec folder: ```virtualenv venv```
+* Activate virtualenv: ```. venv/bin/activate```
+* Download other usefull library: ```libmysqlclient-dev  python-dev  gfortran  libblas-dev liblapack-dev```
+* If you are using a raspberry in order to install the follow requirements you have to give to compiler all ram, otherwise you cannot compile them. To do this open a terminal and with root privileges launch "raspi-config". On the screen select "Advance options" → "Memory split" → set "16" as memory for the gpu. After compiling you can restore the previous value.
+* Install python packages: ```pip install -r requirements.txt```
 
 #### Create  the database:
-* launch mysqld if not active
-* start  virtualenv with this command: ```. venv/bin/activate```
-* create a mysql user  and  a  database
-* check the fields  user password host  database in iBeaconOccupancy/model/config.py
-* create database  through script: ```./create_database.sh```
+* Launch mysqld if not active
+* Start  virtualenv with this command: ```. venv/bin/activate```
+* Create a mysql user  and  a  database
+* Check the fields  user password host  database in iBeaconOccupancy/model/config.py
+* Create database  through script: ```./create_database.sh```
 
 ####Server Startup
 * Launch the server with sudo because runs over port 80: ```sudo ./start_server.sh```
